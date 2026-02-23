@@ -2,59 +2,43 @@ const meta = {
   name: "login",
   version: "1.0.0",
   description: "Login API endpoint",
-  author: "Your Name", 
+  author: "AjiroDesu", 
   method: "post",
-  category: "examples",
-  path: "/login?username=&password=" // set your desired endpoint path here
+  category: "example",
+  path: "/login?username=&password=" // Removed query params since this is a POST endpoint and credentials should be in the body
 };
 
 async function onStart({ res, req }) {
   try {
-    let body;
-    // Parse the request body if not already parsed.
-    if (!req.body) {
-      body = await new Promise((resolve, reject) => {
-        let data = '';
-        req.on('data', chunk => { data += chunk; });
-        req.on('end', () => {
-          try {
-            resolve(JSON.parse(data));
-          } catch (e) {
-            reject(e);
-          }
-        });
-      });
-    } else {
-      body = req.body;
-    }
+    const { username, password } = req.body;
 
-    const { username, password } = body;
+    // Check for required fields
+    if (!username || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Username and password are required' 
+      });
+    }
 
     // Simple authentication logic for demonstration.
     if (username === 'test' && password === 'test') {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ 
+      res.status(200).json({ 
         success: true, 
         message: 'Login successful', 
-        token: 'abc123' 
-      }));
+        token: 'lance123' 
+      });
     } else {
-      res.statusCode = 401;
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ 
+      res.status(401).json({ 
         success: false, 
         message: 'Invalid credentials' 
-      }));
+      });
     }
   } catch (error) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ 
+    res.status(500).json({ 
       success: false, 
       message: 'Internal server error', 
       error: error.message 
-    }));
+    });
   }
 }
 

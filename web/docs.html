@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
   <head>
-    <!-- Essential Meta Tags -->
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="API Dashboard – Explore, test, and interact with APIs in a sleek, modern interface built for a superior user experience." />
     <meta name="robots" content="index, follow" />
-
-    <!-- Favicon and Preconnect -->
     <link rel="icon" href="/icon.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <title>API Dashboard</title>
 
     <!-- Structured Data for SEO -->
@@ -95,212 +90,104 @@
       };
     </script>
 
-    <!-- Custom CSS for Advanced UI/UX -->
+    <!-- Custom CSS for Enhanced UI/UX -->
     <style>
-      /* Smooth Scrollbar for WebKit Browsers */
+      /* Infinite square tiles background - subtle grey grid lines */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image: 
+          linear-gradient(to right, rgba(113, 113, 122, 0.11) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(113, 113, 122, 0.11) 1px, transparent 1px);
+        background-size: 36px 36px;
+        pointer-events: none;
+      }
+
+      /* Smooth custom scrollbar for WebKit */
       ::-webkit-scrollbar { width: 6px; height: 6px; }
       ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
-      ::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.5); }
+      ::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.25); border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.55); }
 
-      /* Basic Animation Effects */
+      /* Basic animations */
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
       .fadeIn { animation: fadeIn 0.5s ease forwards; }
       @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
       .slideUp { animation: slideUp 0.4s ease forwards; }
-      @keyframes slideInRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-      .slideInRight { animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-      /* Sidebar Expand/Collapse Animations */
-      .category-content { 
-        max-height: 0; 
-        overflow: hidden; 
-        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-      }
-      .category-content.open { max-height: 1000px; }
-      
-      /* Arrow rotation for right to down */
-      .category-arrow { 
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .category-arrow.open { 
-        transform: rotate(90deg);
-      }
+      /* Sidebar expand/collapse animations */
+      .category-content { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .category-content.open { max-height: 1200px; }
+      .category-arrow { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .category-arrow.open { transform: rotate(90deg); }
 
-      /* UPDATED: Unified Header Styling for both sidebar and main content */
-      .unified-header {
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(to right, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.03));
-        height: 4rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1.5rem;
-        z-index: 10;
-        transition: opacity 0.3s ease, background 0.3s ease;
-      }
-      
-      /* UPDATED: Unified header separator line */
-      .unified-header::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+      /* Unified separator styling */
+      .unified-separator {
         height: 1px;
-        background: linear-gradient(to right, 
-          rgba(139, 92, 246, 0.05), 
-          rgba(139, 92, 246, 0.3), 
-          rgba(236, 72, 153, 0.2), 
-          rgba(139, 92, 246, 0.05));
-      }
-      
-      .unified-header .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
+        background: linear-gradient(90deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.25), rgba(139, 92, 246, 0.08));
+        position: absolute; left: 0; right: 0; bottom: -1px;
         transition: opacity 0.3s ease;
       }
-      
-      .unified-header .app-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(45deg, #9333ea, #ec4899);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        transition: all 0.3s ease;
-        letter-spacing: -0.01em;
-      }
-      
-      .unified-header .version-badge {
-        background: rgba(139, 92, 246, 0.15);
-        color: rgba(255, 255, 255, 0.9);
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.7rem;
-        font-weight: 500;
-        border: 1px solid rgba(139, 92, 246, 0.2);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-      }
+      @media (min-width: 1024px) { .unified-separator { left: 320px; } }
 
-      /* Premium version badge for home section */
-      .premium-version-badge {
-        background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(236, 72, 153, 0.2));
-        color: white;
-        padding: 0.3rem 1rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-                    0 0 15px rgba(139, 92, 246, 0.3);
+      /* Input focus and search bar transitions */
+      #sidebarSearchContainer { transition: opacity 0.2s ease, transform 0.2s ease; }
+      #sidebarSearch:focus { box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25); }
+
+      /* Premium card styling - subtle hover ONLY (no translateY lift as requested) */
+      .card-hover {
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(139, 92, 246, 0.08);
         position: relative;
+        z-index: 1;
         overflow: hidden;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      }
-
-      .premium-version-badge::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, 
-          rgba(147, 51, 234, 0.4), 
-          rgba(236, 72, 153, 0.4), 
-          rgba(147, 51, 234, 0.4));
-        background-size: 200% 200%;
-        animation: gradient-x 3s ease infinite;
-        z-index: -1;
-      }
-
-      .premium-version-badge::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        background: linear-gradient(to right, 
-          rgba(255, 255, 255, 0), 
-          rgba(255, 255, 255, 0.2), 
-          rgba(255, 255, 255, 0));
-        transform: rotate(30deg);
-        animation: shine 3s infinite;
-        z-index: -1;
-      }
-
-      @keyframes shine {
-        0% { transform: translateX(-100%) rotate(30deg); }
-        100% { transform: translateX(100%) rotate(30deg); }
-      }
-
-      /* Input Focus and Search Bar Transitions */
-      #sidebarSearchContainer { 
-        transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-      }
-      #sidebarSearch:focus { 
-        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3); 
-      }
-      #sidebarSearch::placeholder {
-        transition: color 0.2s ease;
-      }
-      #sidebarSearch:focus::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-      }
-
-      /* Card Hover and Shadow Effects */
-      .card-hover { 
-        transition: all 0.3s ease; 
-        position: relative; 
-        z-index: 1; 
-        overflow: hidden; 
       }
       .card-hover::before {
         content: '';
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
-        opacity: 0; transition: opacity 0.3s ease; z-index: -1;
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.04) 0%, rgba(236, 72, 153, 0.04) 100%);
+        opacity: 0; transition: opacity 0.25s ease; z-index: -1;
       }
       .card-hover:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
-                    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        border-color: rgba(139, 92, 246, 0.35);
       }
       .card-hover:hover::before { opacity: 1; }
 
-      /* Gradient Text for a Modern Look */
+      /* Gradient text */
       .gradient-text {
-        background: linear-gradient(45deg, #9333ea, #ec4899);
+        background: linear-gradient(to right, #a78bfa, #ec4899);
         -webkit-background-clip: text; background-clip: text; color: transparent;
       }
 
-      /* Animated Background Effects */
-      .gradient-bg { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0, 0, 0, 0) 100%); }
-      .animated-bg {
-        background: linear-gradient(270deg, #18181c, #27272b);
-        background-size: 200% 200%; animation: gradient-x 3s ease infinite;
-      }
+      /* Navbar header initial hidden state */
+      #header, #versionHeader { opacity: 0; transition: opacity 0.3s ease; }
 
-      /* Glass Effect for Overlays and Modals */
+      /* Gradient border */
+      .gradient-border {
+        position: relative; border-radius: 0.75rem; background-clip: padding-box; z-index: 0;
+      }
+      .gradient-border::before {
+        content: '';
+        position: absolute; top: -1px; right: -1px; bottom: -1px; left: -1px;
+        z-index: -1; border-radius: inherit;
+        background: linear-gradient(135deg, #9333ea, #ec4899);
+        opacity: 0; transition: opacity 0.3s ease;
+      }
+      .gradient-border:hover::before { opacity: 1; }
+
+      /* Glass effect */
       .glass-effect {
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        background: rgba(24, 24, 28, 0.7); border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        background: rgba(24, 24, 28, 0.75); border: 1px solid rgba(255, 255, 255, 0.06);
       }
 
-      /* Gradient Button with Dynamic Hover State */
+      /* Gradient button */
       .gradient-button {
         background: linear-gradient(to right, #9333ea, #ec4899);
-        transition: all 0.3s ease; position: relative; z-index: 1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 1;
       }
       .gradient-button::before {
         content: '';
@@ -310,791 +197,237 @@
       }
       .gradient-button:hover::before { opacity: 1; }
 
-      /* Pulse Effect for Live Status Badges */
-      .pulse-badge { position: relative; }
-      .pulse-badge::after {
-        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        border-radius: inherit; box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7); animation: pulse 2s infinite;
-      }
-      @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0); }
-      }
-
-      /* Method Badge Hover Animation */
-      .method-badge { 
-        position: relative; 
-        overflow: hidden; 
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
+      /* Method badge */
+      .method-badge { position: relative; overflow: hidden; }
       .method-badge::before {
         content: ''; position: absolute; top: 0; left: -100%;
         width: 100%; height: 100%;
-        background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.1), rgba(255,255,255,0));
-        transition: left 0.5s ease;
+        background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.12), rgba(255,255,255,0));
+        transition: left 0.6s ease;
       }
       .method-badge:hover::before { left: 100%; }
-      .method-badge:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+
+      /* Shimmer */
+      #loadingBar { animation: shimmer 2s linear infinite; background-size: 200% 100%; }
+      @keyframes shimmer {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
       }
 
-      /* Enhanced Loading Animation */
-      .loading-container {
-        position: relative;
-        width: 240px;
-        height: 4px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-      }
-
-      .loading-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 0;
-        border-radius: 10px;
-        background: linear-gradient(90deg, 
-          rgba(139, 92, 246, 0.8), 
-          rgba(236, 72, 153, 0.8), 
-          rgba(139, 92, 246, 0.8));
-        background-size: 200% 100%;
-        animation: loading-animation 2s ease-in-out infinite;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-      }
-
-      @keyframes loading-animation {
-        0% {
-          background-position: 100% 0;
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        }
-        50% {
-          background-position: 0 0;
-          box-shadow: 0 0 20px rgba(236, 72, 153, 0.7);
-        }
-        100% {
-          background-position: 100% 0;
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        }
-      }
-
-      .loading-particles {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 100px;
-        pointer-events: none;
-      }
-
-      .loading-particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: rgba(139, 92, 246, 0.6);
-        animation: particle-float 3s ease-in-out infinite;
-        opacity: 0;
-      }
-
-      @keyframes particle-float {
-        0% {
-          transform: translateY(0) scale(0);
-          opacity: 0;
-        }
-        20% {
-          opacity: 1;
-        }
-        80% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-50px) scale(1);
-          opacity: 0;
-        }
-      }
-
-      .loading-text {
-        position: relative;
-        color: transparent;
-        background: linear-gradient(45deg, #9333ea, #ec4899, #9333ea);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        background-clip: text;
-        animation: text-shine 3s linear infinite;
-        font-weight: 600;
-      }
-
-      @keyframes text-shine {
-        0% {
-          background-position: 0% center;
-        }
-        100% {
-          background-position: 200% center;
-        }
-      }
-
-      /* Action Buttons for API Endpoint & Results */
+      /* Premium icon-only action buttons */
       .copy-download-btn {
-        background-color: rgba(41, 41, 46, 0.8);
-        color: #fff;
-        padding: 0.25rem 0.75rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        border: 1px solid rgba(139, 92, 246, 0.3);
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-        cursor: pointer;
-      }
-      .copy-download-btn:hover {
-        background-color: rgba(60, 60, 70, 0.9);
-        border-color: rgba(139, 92, 246, 0.5);
-      }
-      .copy-download-btn:active {
-        transform: scale(0.97);
-      }
-
-      /* Frosted Glass Effect for Cards & Buttons */
-      .frosted-card {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 1.25rem;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.03);
-      }
-      .frosted-card h3 {
-        background: linear-gradient(45deg, #9333ea, #ec4899);
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      .frosted-button {
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 0.5rem 1rem;
-        transition: all 0.3s ease;
-        font-weight: bold;
-      }
-      .frosted-button span,
-      .frosted-button,
-      .frosted-button a {
-        background: linear-gradient(45deg, #9333ea, #ec4899);
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      .small-frosted-card {
-        display: inline-block;
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 0.5rem 1rem;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      .small-frosted-card span,
-      .small-frosted-card,
-      .small-frosted-card a {
-        background: linear-gradient(45deg, #9333ea, #ec4899);
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      .small-frosted-card:hover,
-      .frosted-button:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      /* UPDATED: Sidebar Category Card Styling - Thinner and more elegant */
-      .category-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 0.5rem;
-        padding: 0.5rem 0.75rem;
-        margin-bottom: 0.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(255, 255, 255, 0.02);
-        display: flex;
-        flex-direction: column;
-        min-height: 2.75rem; /* Thinner height */
-      }
-      
-      .category-header-text {
-        background: linear-gradient(45deg, #9333ea, #ec4899);
-        -webkit-background-clip: text;
-        color: transparent;
-        transition: all 0.2s ease;
-        font-size: 0.9rem; /* Slightly smaller font */
-      }
-      
-      /* Active / Hover State Overlay for Entire Card */
-      .category-card:hover::before,
-      .category-card.active::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border: 1px solid rgba(139, 92, 246, 0.5);
-        border-radius: inherit;
-        pointer-events: none;
-        box-shadow: inset 0 0 5px rgba(139, 92, 246, 0.1);
-      }
-      
-      .category-card.active {
-        background: rgba(139, 92, 246, 0.05);
-      }
-
-      /* Enhanced Sidebar API Item Styling */
-      .sidebar-api-item {
-        position: relative;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 0.5rem;
-        border-left: 2px solid transparent;
-        padding-left: 0.5rem !important;
-        font-size: 0.85rem; /* Smaller font for items */
-      }
-      .sidebar-api-item:hover {
-        background: rgba(139, 92, 246, 0.1);
-        border-left-color: rgba(139, 92, 246, 0.6);
-        transform: translateX(2px);
-      }
-      .sidebar-api-item:active {
-        transform: translateX(2px) scale(0.98);
-      }
-
-      /* Sidebar Scrollbar Enhancement */
-      #sidebarCategories::-webkit-scrollbar {
-        width: 4px;
-      }
-      #sidebarCategories::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.02);
-        margin: 4px 0;
-      }
-      #sidebarCategories::-webkit-scrollbar-thumb {
-        background: rgba(139, 92, 246, 0.15);
-        border-radius: 10px;
-      }
-      #sidebarCategories::-webkit-scrollbar-thumb:hover {
-        background: rgba(139, 92, 246, 0.3);
-      }
-
-      /* Sidebar Search Enhancement */
-      .sidebar-search-icon {
-        transition: all 0.2s ease;
-      }
-      #sidebarSearch:focus + .sidebar-search-container .sidebar-search-icon {
-        color: rgba(139, 92, 246, 0.8);
-        transform: scale(1.1);
-      }
-      .search-shortcut-badge {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.65rem;
-        padding: 2px 5px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.5);
-        pointer-events: none;
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
-      }
-      #sidebarSearch:focus ~ .search-shortcut-badge {
-        opacity: 0;
-      }
-
-      /* Sidebar Toggle Button Enhancement */
-      .sidebar-toggle-btn {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-      .sidebar-toggle-btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-        transition: transform 0.5s ease, opacity 0.3s ease;
-      }
-      .sidebar-toggle-btn:active::after {
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 1;
-      }
-
-      /* Custom Icon Button Styles */
-      .icon-button { 
-        outline: none; 
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .icon-button:focus { 
-        outline: none; 
-        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4); 
-      }
-      .icon-button:active svg {
-        transform: scale(0.95);
-        filter: drop-shadow(0 0 3px #9333ea) drop-shadow(0 0 3px #ec4899);
-      }
-
-      /* No Results Message Enhancement */
-      .no-results-message {
-        padding: 2rem 1rem;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.5);
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 0.75rem;
-        margin-top: 1rem;
-        border: 1px dashed rgba(255, 255, 255, 0.1);
-        animation: fadeIn 0.5s ease forwards;
-      }
-
-      /* Sidebar Backdrop */
-      .sidebar-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        z-index: 40;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
-      }
-      .sidebar-backdrop.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      /* Sidebar Animation */
-      @keyframes sidebarEntrance {
-        from { transform: translateX(-100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-      }
-      .sidebar-entrance {
-        animation: sidebarEntrance 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      }
-
-      /* UPDATED: Category Item Count Badge - Smaller and more subtle */
-      .category-count {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 18px;
-        height: 18px;
-        padding: 0 5px;
-        font-size: 0.65rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(139, 92, 246, 0.1);
-        border-radius: 9px;
-        margin-left: 6px;
-        transition: all 0.2s ease;
-      }
-      .category-card:hover .category-count,
-      .category-card.active .category-count {
-        background: rgba(139, 92, 246, 0.2);
-        color: white;
-      }
-
-      /* Enhanced Modal Styling - Removed border */
-      .modal-premium {
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      }
-
-      /* Enhanced Notification Styling */
-      .notification-item {
-        position: relative;
-        overflow: hidden;
-      }
-      .notification-item::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(to bottom, #9333ea, #ec4899);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      .notification-item:hover::after {
-        opacity: 1;
-      }
-
-      /* Premium Scrollbar for API Response */
-      #apiResponseContent::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      #apiResponseContent::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 3px;
-      }
-      #apiResponseContent::-webkit-scrollbar-thumb {
-        background: rgba(139, 92, 246, 0.2);
-        border-radius: 3px;
-        border: 1px solid rgba(139, 92, 246, 0.1);
-      }
-      #apiResponseContent::-webkit-scrollbar-thumb:hover {
-        background: rgba(139, 92, 246, 0.4);
-      }
-
-      /* Premium Submit Button */
-      #submitQueryBtn {
-        position: relative;
-        overflow: hidden;
-      }
-      #submitQueryBtn::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, 
-          rgba(255, 255, 255, 0), 
-          rgba(255, 255, 255, 0.2), 
-          rgba(255, 255, 255, 0));
-        animation: shine 1.5s infinite;
-      }
-
-      /* Premium API Response Formatting */
-      .json-key {
-        color: #9333ea;
-        font-weight: 500;
-      }
-      .json-string {
-        color: #10b981;
-      }
-      .json-number {
-        color: #3b82f6;
-      }
-      .json-boolean {
-        color: #f59e0b;
-      }
-      .json-null {
-        color: #ef4444;
-      }
-
-      /* UPDATED: Category Header Container - More compact and cleaner */
-      .category-header-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        padding: 0.25rem 0;
-      }
-
-      .category-header-left {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex: 1;
-        min-width: 0; /* Prevents overflow */
-      }
-
-      .category-header-text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      
-      /* UPDATED: Main content header styling - Reduced spacing */
-      .main-header-container {
-        padding: 1rem 0 1rem 0;
-        text-align: center;
-        position: relative;
-      }
-      
-      .main-header-container::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 20%;
-        right: 20%;
-        height: 1px;
-        background: linear-gradient(to right, 
-          rgba(139, 92, 246, 0.05), 
-          rgba(139, 92, 246, 0.3), 
-          rgba(236, 72, 153, 0.2), 
-          rgba(139, 92, 246, 0.05));
-      }
-      
-      .main-header-title {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-      }
-      
-      .main-header-subtitle {
-        font-size: 1.125rem;
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 36rem;
-        margin: 0 auto 1rem auto;
-      }
-      
-      .status-indicator {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.375rem 0.75rem;
-        background: rgba(16, 185, 129, 0.1);
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        width: 38px;
+        height: 38px;
+        background-color: rgba(39, 39, 42, 0.9);
+        color: #e4e4e7;
         border-radius: 9999px;
-        font-size: 0.875rem;
-        color: rgba(16, 185, 129, 0.9);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
       }
-      
-      .status-dot {
-        width: 0.5rem;
-        height: 0.5rem;
-        background-color: rgb(16, 185, 129);
-        border-radius: 50%;
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      .copy-download-btn:hover {
+        background-color: rgba(139, 92, 246, 0.18);
+        border-color: rgba(139, 92, 246, 0.55);
+        color: #fff;
       }
-      
-      /* Performance optimizations */
-      .will-change-transform {
-        will-change: transform;
+      .copy-download-btn:active { transform: scale(0.92); }
+
+      /* Method switch */
+      .method-switch {
+        display: inline-flex;
+        background: #27272b;
+        border-radius: 9999px;
+        padding: 3px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       }
-      
-      .hardware-accelerated {
-        transform: translateZ(0);
-        backface-visibility: hidden;
+      .method-switch button {
+        padding: 6px 20px;
+        border-radius: 9999px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      
-      /* Responsive optimizations */
-      @media (max-width: 640px) {
-        .unified-header {
-          padding: 0 1rem;
-        }
-        
-        .main-header-title {
-          font-size: 1.75rem;
-        }
-        
-        .main-header-subtitle {
-          font-size: 1rem;
-          padding: 0 1rem;
-        }
+      .method-switch button.active {
+        background: #8b5cf6;
+        color: white;
+        box-shadow: 0 2px 6px rgba(139, 92, 246, 0.4);
       }
 
-      /* UPDATED: Header visibility control */
-      .header-hidden .logo-container {
-        opacity: 0;
-        pointer-events: none;
+      /* JSON textarea for POST */
+      .json-textarea {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 13.5px;
+        line-height: 1.45;
+        resize: vertical;
+        min-height: 160px;
       }
 
-      .header-hidden.unified-header {
-        background: transparent;
-      }
-
-      .header-hidden.unified-header::after {
-        opacity: 0;
-      }
-
-      /* UPDATED: Reduced spacing between image and content */
-      .banner-image-container {
-        margin-bottom: 1.5rem;
+      /* Scrollable results */
+      #apiResponseContent {
+        max-height: 460px;
+        overflow-y: auto;
       }
     </style>
   </head>
   <body class="bg-gradient-to-br from-dark-950 via-dark-900 to-dark-850 text-gray-200 font-sans min-h-screen relative transition-colors duration-300">
-    <!-- Enhanced Loading Screen (Accessible with ARIA live region) -->
-    <div id="loadingScreen" class="fixed inset-0 bg-dark-950 z-[9999] flex flex-col items-center justify-center transition-colors duration-300" aria-live="polite">
-      <div class="loading-container" aria-hidden="true">
-        <div id="loadingBar" class="loading-bar"></div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 bg-dark-950 z-[9999] flex flex-col items-center justify-center transition-all duration-500" aria-live="polite">
+      <div class="relative w-64 h-2 bg-dark-700 rounded-full overflow-hidden mb-4" aria-hidden="true">
+        <div id="loadingBar" class="absolute left-0 top-0 h-full w-0 bg-gradient-to-r from-primary-600 to-accent-pink rounded-full transition-all duration-1000 ease-out"></div>
       </div>
-      <div class="loading-particles">
-        <!-- Particles will be added via JavaScript -->
-      </div>
-      <p class="loading-text text-xl font-medium font-heading">Loading dashboard...</p>
+      <p class="text-primary-400 text-xl font-medium font-heading">Loading premium dashboard...</p>
     </div>
 
-    <!-- Sidebar Backdrop with Blur Effect -->
-    <div id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden lg:hidden" aria-hidden="true"></div>
 
-    <!-- Sidebar Navigation - UPDATED with unified header -->
-    <aside id="sidebar" class="fixed top-0 left-0 h-full w-80 bg-dark-800/95 backdrop-blur-md border-r border-dark-600/50 z-50 transform -translate-x-full lg:translate-x-0 transition-all duration-300 shadow-xl" aria-label="Sidebar Navigation">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-80 bg-dark-800/95 backdrop-blur-md border-r border-dark-600/50 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300" aria-label="Sidebar Navigation">
       <div class="flex flex-col h-full">
-        <!-- UPDATED: Unified Sidebar Header -->
-        <header class="unified-header">
-          <div class="logo-container">
-            <span id="sidebarHeader" class="app-title"></span>
-            <div id="sidebarVersion" class="version-badge"></div>
-          </div>
-          <!-- Sidebar Search Toggle - Enhanced -->
-          <button id="sidebarSearchToggle" class="p-2 rounded-full hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-300 active:scale-95" aria-label="Open search">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <!-- Sidebar Header -->
+        <header class="h-16 flex items-center justify-between px-6 relative">
+          <a href="#" class="flex items-center" aria-label="Dashboard Home">
+            <span id="sidebarHeader" class="text-xl font-semibold gradient-text font-heading tracking-tighter"></span>
+            <div id="sidebarVersion" class="ml-2 bg-primary-900/50 text-primary-300 px-2 py-0.5 text-xs rounded-full font-medium"></div>
+          </a>
+          <button id="sidebarSearchToggle" class="p-2 rounded-full hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors" aria-label="Open search">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-
-          <!-- Sidebar Search Container - Enhanced -->
-          <div id="sidebarSearchContainer" class="absolute inset-x-0 top-0 h-16 bg-dark-800 flex items-center px-4 hidden z-10" aria-label="Search APIs">
+          <div id="sidebarSearchContainer" class="absolute inset-x-0 top-0 h-16 bg-dark-800 flex items-center px-4 hidden" aria-label="Search APIs">
             <div class="relative w-full flex items-center">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none sidebar-search-container">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 sidebar-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <input type="text" id="sidebarSearch" class="w-full h-10 pl-10 pr-10 py-2 bg-dark-600 border-0 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:outline-none transition-all" placeholder="Search APIs..." aria-label="Search APIs">
-              <span class="search-shortcut-badge">⌘K</span>
-              <button id="sidebarSearchClear" class="absolute right-2 p-2 rounded-full text-gray-400 hover:text-gray-200 hidden focus:outline-none transition-all duration-200 hover:bg-dark-500" aria-label="Clear search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <input type="text" id="sidebarSearch" class="w-full h-10 pl-10 pr-10 py-2 bg-dark-600 border-0 rounded-2xl text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:outline-none transition-all" placeholder="Search APIs..." aria-label="Search APIs">
+              <button id="sidebarSearchClear" class="absolute right-2 p-2 rounded-full text-gray-400 hover:text-gray-200 hidden focus:outline-none" aria-label="Clear search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <button id="sidebarSearchCancel" class="ml-4 text-white font-medium focus:outline-none hover:text-primary-300 transition-colors duration-200">Cancel</button>
+            <button id="sidebarSearchCancel" class="ml-4 text-white font-medium focus:outline-none">Cancel</button>
           </div>
+          <div class="unified-separator"></div>
         </header>
 
-        <!-- Sidebar Categories Container - Enhanced -->
-        <nav id="sidebarCategories" class="flex-1 overflow-y-auto px-4 py-4 space-y-2" aria-label="API Categories"></nav>
-
-        <!-- Sidebar Footer - Simplified (removed collapse button) -->
-        <div class="p-4 border-t border-dark-600/50 bg-dark-700/30">
-          <div class="flex items-center justify-center">
-            <div class="text-xs text-gray-400">
-              <span id="totalApiCount">0</span> APIs in <span id="totalCategoryCount">0</span> categories
-            </div>
-          </div>
-        </div>
+        <!-- Sidebar Categories Navigation -->
+        <nav id="sidebarCategories" class="flex-1 overflow-y-auto px-4 mt-4 pb-6" aria-label="API Categories"></nav>
       </div>
     </aside>
 
-    <!-- UPDATED: Navbar with unified header - Now with hidden state -->
+    <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 inset-x-0 z-30 transition-all duration-300" aria-label="Main Navigation">
-      <div id="mainHeader" class="unified-header lg:ml-80">
+      <div class="container mx-auto px-6 h-16 flex items-center justify-between">
         <div class="flex items-center">
-          <button id="sidebarToggle" class="sidebar-toggle-btn icon-button p-2 mr-4 rounded-full hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors lg:hidden" aria-label="Toggle sidebar">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <button id="sidebarToggle" class="p-2 mr-4 rounded-full hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors lg:hidden" aria-label="Toggle sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <div class="logo-container">
-            <span id="header" class="app-title"></span>
-            <div id="versionHeader" class="version-badge"></div>
-          </div>
+          <a href="#" class="flex items-center" id="navbarBrand" aria-label="Dashboard Home">
+            <span id="header" class="text-xl font-semibold mr-2 gradient-text font-heading tracking-tighter"></span>
+            <div id="versionHeader" class="bg-primary-900/50 text-primary-300 px-3 py-1 text-xs rounded-full font-medium"></div>
+          </a>
         </div>
         <div class="flex items-center">
-          <button id="notificationToggle" class="icon-button p-2 rounded-full hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors relative" aria-label="Notifications">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button id="notificationToggle" class="p-2 rounded-full hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors relative" aria-label="Notifications">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             <span id="notificationBadge" class="absolute top-0 right-0 bg-gradient-to-r from-accent-purple to-accent-pink text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden pulse-badge">0</span>
           </button>
         </div>
       </div>
+      <div id="navbarSeparator" class="unified-separator opacity-0"></div>
     </nav>
 
     <!-- Main Content Area -->
     <main class="lg:ml-80 transition-all duration-300">
       <div class="h-16" aria-hidden="true"></div>
       <div class="container mx-auto px-6 py-8">
-        <!-- UPDATED: Dashboard Banner with unified header styling and reduced spacing -->
-        <section class="flex flex-col items-center mb-8 fadeIn" aria-labelledby="dashboardBanner">
-          <div class="w-full flex justify-center banner-image-container">
-            <img id="dynamicImage" class="rounded-xl max-w-full lg:max-w-md h-auto object-cover shadow-lg ring-1 ring-white/10 hardware-accelerated" src="/placeholder.svg" loading="lazy" alt="Dashboard banner" />
+        <!-- Dashboard Banner -->
+        <section class="flex flex-col items-center mb-12 fadeIn" aria-labelledby="dashboardBanner">
+          <div class="w-full flex justify-center mb-6">
+            <img id="dynamicImage" class="rounded-3xl max-w-full lg:max-w-md h-auto object-cover shadow-2xl ring-1 ring-white/10" src="/placeholder.svg" loading="lazy" alt="Dashboard banner" />
           </div>
-          <div class="main-header-container">
-            <h1 id="name" class="main-header-title gradient-text font-heading"></h1>
-            <div class="flex items-center justify-center gap-3 mb-3">
-              <div id="version" class="premium-version-badge"></div>
+          <div class="flex-1 text-center slideUp" style="animation-delay: 0.2s;">
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+              <h1 id="name" class="text-3xl font-bold gradient-text font-heading tracking-tighter"></h1>
+              <div id="version" class="bg-gradient-to-r from-primary-900/50 to-primary-800/50 text-primary-300 px-3 py-1 text-xs rounded-full border border-primary-700/30 font-medium"></div>
             </div>
-            <p id="description" class="main-header-subtitle"></p>
-            <div id="headerStatus" class="status-indicator">
-              <span class="status-dot" aria-hidden="true"></span>
+            <p id="description" class="text-gray-400 text-lg mb-4 max-w-md mx-auto"></p>
+            <div id="headerStatus" class="text-sm text-green-400 font-medium mb-6 flex items-center justify-center">
+              <span class="inline-block w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" aria-hidden="true"></span>
               <span id="headerStatusText"></span>
             </div>
-            <!-- External Links using Small Frosted Card Style -->
-            <div id="apiLinks" class="flex flex-wrap gap-4 justify-center mt-6"></div>
+            <div id="apiLinks" class="flex flex-wrap gap-4 justify-center"></div>
           </div>
         </section>
 
         <!-- Dashboard Stats Cards -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 slideUp" style="animation-delay: 0.3s;" aria-label="Dashboard Stats">
-          <!-- Total APIs Card -->
-          <article class="frosted-card p-6 shadow-lg card-hover" role="region" aria-label="Total APIs">
+          <article class="bg-dark-700 rounded-3xl p-6 shadow-xl card-hover gradient-border" role="region" aria-label="Total APIs">
             <header class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-medium font-heading">Total APIs</h3>
-              <div class="p-2 bg-primary-900/30 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h3 class="text-lg font-medium font-heading tracking-tight">Total APIs</h3>
+              <div class="p-3 bg-primary-900/30 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
             </header>
             <div class="flex items-end">
-              <span id="totalApis" class="text-3xl font-bold">0</span>
-              <span class="text-gray-400 ml-2 mb-1">endpoints</span>
+              <span id="totalApis" class="text-4xl font-bold tracking-tighter">0</span>
+              <span class="text-gray-400 ml-2 mb-1 text-lg">endpoints</span>
             </div>
           </article>
-          <!-- Categories Card -->
-          <article class="frosted-card p-6 shadow-lg card-hover" role="region" aria-label="Categories">
+          <article class="bg-dark-700 rounded-3xl p-6 shadow-xl card-hover gradient-border" role="region" aria-label="Categories">
             <header class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-medium font-heading category-header-text">Categories</h3>
-              <div class="p-2 bg-green-900/30 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h3 class="text-lg font-medium font-heading tracking-tight">Categories</h3>
+              <div class="p-3 bg-green-900/30 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
             </header>
             <div class="flex items-end">
-              <span id="totalCategories" class="text-3xl font-bold">0</span>
-              <span class="text-gray-400 ml-2 mb-1">groups</span>
+              <span id="totalCategories" class="text-4xl font-bold tracking-tighter">0</span>
+              <span class="text-gray-400 ml-2 mb-1 text-lg">groups</span>
             </div>
           </article>
-          <!-- GET Endpoints Card -->
-          <article class="frosted-card p-6 shadow-lg card-hover" role="region" aria-label="GET Endpoints">
+          <article class="bg-dark-700 rounded-3xl p-6 shadow-xl card-hover gradient-border" role="region" aria-label="GET Endpoints">
             <header class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-medium font-heading">GET Endpoints</h3>
-              <div class="p-2 bg-blue-900/30 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h3 class="text-lg font-medium font-heading tracking-tight">GET Endpoints</h3>
+              <div class="p-3 bg-blue-900/30 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </div>
             </header>
             <div class="flex items-end">
-              <span id="getEndpoints" class="text-3xl font-bold">0</span>
-              <span class="text-gray-400 ml-2 mb-1">endpoints</span>
+              <span id="getEndpoints" class="text-4xl font-bold tracking-tighter">0</span>
+              <span class="text-gray-400 ml-2 mb-1 text-lg">endpoints</span>
             </div>
           </article>
-          <!-- POST Endpoints Card -->
-          <article class="frosted-card p-6 shadow-lg card-hover" role="region" aria-label="POST Endpoints">
+          <article class="bg-dark-700 rounded-3xl p-6 shadow-xl card-hover gradient-border" role="region" aria-label="POST Endpoints">
             <header class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-medium font-heading">POST Endpoints</h3>
-              <div class="p-2 bg-amber-900/30 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <h3 class="text-lg font-medium font-heading tracking-tight">POST Endpoints</h3>
+              <div class="p-3 bg-amber-900/30 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
               </div>
             </header>
             <div class="flex items-end">
-              <span id="postEndpoints" class="text-3xl font-bold">0</span>
-              <span class="text-gray-400 ml-2 mb-1">endpoints</span>
+              <span id="postEndpoints" class="text-4xl font-bold tracking-tighter">0</span>
+              <span class="text-gray-400 ml-2 mb-1 text-lg">endpoints</span>
             </div>
           </article>
         </section>
@@ -1104,217 +437,211 @@
     <!-- API Response Modal -->
     <div id="apiResponseModal" class="fixed inset-0 z-50 bg-black/70 hidden overflow-y-auto backdrop-blur-sm" role="dialog" aria-labelledby="apiResponseModalLabel" aria-modal="true">
       <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-dark-800 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-xl modal-premium">
+        <div class="bg-dark-800 border border-dark-600/50 rounded-3xl w-full max-w-4xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden">
           <!-- Modal Header -->
-          <header class="flex justify-between items-start p-6 border-b border-dark-600/50 bg-gradient-to-r from-dark-800 to-dark-700 rounded-t-xl">
+          <header class="flex justify-between items-start p-6 border-b border-dark-600/50 bg-gradient-to-r from-dark-800 to-dark-700 rounded-t-3xl">
             <div>
-              <h3 class="text-xl font-semibold gradient-text font-heading" id="apiResponseModalLabel"></h3>
+              <h3 class="text-2xl font-semibold gradient-text font-heading tracking-tight" id="apiResponseModalLabel"></h3>
               <p class="text-gray-400 text-sm mt-1" id="apiResponseModalDesc"></p>
             </div>
-            <button type="button" id="closeModalBtn" class="text-gray-400 hover:text-gray-200 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors" aria-label="Close modal">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <button type="button" id="closeModalBtn" class="text-gray-400 hover:text-gray-200 p-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors" aria-label="Close modal">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </header>
           <!-- Modal Body -->
           <div class="p-6 overflow-y-auto flex-1">
-            <!-- API Endpoint Section -->
-            <div class="mb-4">
-              <div class="flex justify-end" id="apiEndpointActions"></div>
-              <pre id="apiEndpoint" class="mt-2 bg-dark-900 rounded-lg p-4 text-gray-300 text-sm overflow-x-auto font-mono hidden"></pre>
-            </div>
-            <!-- Query Input Section (if applicable) -->
-            <div id="apiQueryInputContainer" class="space-y-4"></div>
-            <!-- API Response Section -->
-            <div id="apiResponseLoading" class="hidden py-12 flex justify-center">
-              <div class="relative w-12 h-12">
-                <div class="absolute inset-0 border-4 border-primary-800/50 border-t-primary-400 rounded-full animate-spin"></div>
+            <!-- Method Switch (only when both GET and POST supported) -->
+            <div id="methodSwitchContainer" class="mb-6 hidden">
+              <div class="flex items-center gap-3">
+                <span class="text-xs uppercase tracking-widest text-gray-400 font-medium">Method</span>
+                <div id="methodSwitch" class="method-switch"></div>
               </div>
             </div>
-            <div class="mb-4">
-              <div class="flex justify-end" id="apiResponseActions"></div>
-              <pre id="apiResponseContent" class="mt-2 hidden bg-dark-900 rounded-lg p-4 text-gray-300 text-sm overflow-x-auto font-mono"></pre>
+
+            <!-- API Endpoint / Link Section -->
+            <div class="mb-6">
+              <div id="linkHeader" class="flex items-center justify-between mb-3">
+                <span class="text-sm uppercase tracking-widest text-gray-400 font-medium">Link</span>
+                <div id="apiEndpointActions" class="flex gap-2"></div>
+              </div>
+              <pre id="apiEndpoint" class="mt-1 bg-dark-900 rounded-2xl p-5 text-gray-300 text-sm overflow-x-auto font-mono border border-dark-600/50 hidden"></pre>
+            </div>
+
+            <!-- Query / Tester Section (original param inputs for GET, JSON for POST) -->
+            <div id="apiQueryInputContainer" class="space-y-5 mb-8"></div>
+
+            <!-- API Response Section -->
+            <div>
+              <div id="resultsHeader" class="flex items-center justify-between mb-3">
+                <span class="text-sm uppercase tracking-widest text-gray-400 font-medium">Results</span>
+                <div id="apiResponseActions" class="flex gap-2"></div>
+              </div>
+              <div id="apiResponseLoading" class="hidden py-16 flex justify-center">
+                <div class="relative w-14 h-14">
+                  <div class="absolute inset-0 border-4 border-primary-800/50 border-t-primary-400 rounded-full animate-spin"></div>
+                </div>
+              </div>
+              <pre id="apiResponseContent" class="mt-1 hidden bg-dark-900 rounded-2xl p-5 text-gray-300 text-sm overflow-x-auto font-mono border border-dark-600/50"></pre>
             </div>
           </div>
           <!-- Modal Footer -->
-          <footer class="p-6 border-t border-dark-600/50 bg-gradient-to-r from-dark-800 to-dark-700 rounded-b-xl">
-            <div class="flex justify-between">
-              <button id="cancelQueryBtn" class="px-6 py-2.5 bg-dark-600 text-white font-medium rounded-lg transition-all hover:bg-dark-500 focus:outline-none hidden">
-                Cancel
-              </button>
-              <button id="submitQueryBtn" class="hidden px-6 py-2.5 gradient-button text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-primary-500/20 focus:outline-none">
-                Submit
-              </button>
-            </div>
+          <footer class="p-6 border-t border-dark-600/50 bg-gradient-to-r from-dark-800 to-dark-700 rounded-b-3xl">
+            <button id="submitQueryBtn" class="hidden px-8 py-3.5 gradient-button text-white font-semibold rounded-2xl transition-all shadow-xl hover:shadow-primary-500/30 focus:outline-none w-full" disabled>
+              Submit
+            </button>
           </footer>
         </div>
       </div>
     </div>
 
     <!-- Notification Pop-up -->
-    <div id="notificationPopup" class="fixed top-20 right-4 z-50 w-80 bg-dark-800 border border-dark-600/50 rounded-lg shadow-lg hidden glass-effect" role="alert">
-      <div class="p-4">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-lg font-semibold mb-2 font-heading">Notifications</h3>
-          <button id="markAllRead" class="text-sm text-primary-300 hover:text-primary-200 transition-colors focus:outline-none">Mark all as read</button>
+    <div id="notificationPopup" class="fixed top-20 right-4 z-50 w-80 bg-dark-800 border border-dark-600/50 rounded-3xl shadow-2xl hidden glass-effect" role="alert">
+      <div class="p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-lg font-semibold font-heading tracking-tight">Notifications</h3>
+          <button id="markAllRead" class="text-sm text-primary-300 hover:text-primary-200 transition-colors focus:outline-none">Mark all read</button>
         </div>
-        <div id="notificationList" class="space-y-2 max-h-[300px] overflow-y-auto"></div>
+        <div id="notificationList" class="space-y-2 max-h-[320px] overflow-y-auto"></div>
       </div>
     </div>
 
-    <!-- Main JavaScript for Interactivity -->
+    <!-- Main JavaScript -->
     <script>
-      /* Helper functions for copy/download actions */
+      /* Perfect copy & download SVGs */
+      const copySvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg>`;
+      const downloadSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>`;
+      const checkSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+
       function clearActionButtons(container) { container.innerHTML = ''; }
+
       function addCopyButtonToContainer(container, textToCopy) {
         clearActionButtons(container);
         const btn = document.createElement('button');
         btn.className = 'copy-download-btn';
-        btn.textContent = 'Copy';
-        btn.onclick = () => {
-          navigator.clipboard.writeText(textToCopy);
-          btn.textContent = 'Copied!';
-          setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+        btn.title = 'Copy';
+        btn.innerHTML = copySvg;
+        btn.onclick = async () => {
+          await navigator.clipboard.writeText(textToCopy);
+          const original = btn.innerHTML;
+          btn.innerHTML = checkSvg;
+          btn.style.color = '#4ade80';
+          setTimeout(() => { btn.innerHTML = original; btn.style.color = ''; }, 1600);
         };
         container.appendChild(btn);
       }
+
       function addDownloadButtonToContainer(container, downloadUrl, filename) {
         clearActionButtons(container);
         const btn = document.createElement('button');
         btn.className = 'copy-download-btn';
-        btn.textContent = 'Download';
+        btn.title = 'Download';
+        btn.innerHTML = downloadSvg;
         btn.onclick = () => {
           const a = document.createElement('a');
           a.href = downloadUrl;
-          a.download = filename || 'download';
+          a.download = filename || 'download.jpg';
           a.click();
         };
         container.appendChild(btn);
       }
 
-      // Enhanced Loading Animation
+      let currentMethod = 'get';
+      let currentBaseUrl = '';
+      let currentHasParams = false;
+      let currentParams = new URLSearchParams();
+      let currentApiName = '';
+
+      // Loading Animation
       function animateLoading() {
         const loadingBar = document.getElementById('loadingBar');
-        const loadingParticles = document.querySelector('.loading-particles');
-
-        // Create particles
-        for (let i = 0; i < 15; i++) {
-          const particle = document.createElement('div');
-          particle.className = 'loading-particle';
-          particle.style.left = `${Math.random() * 100}%`;
-          particle.style.animationDelay = `${Math.random() * 2}s`;
-          particle.style.width = `${Math.random() * 4 + 2}px`;
-          particle.style.height = particle.style.width;
-          particle.style.background = `rgba(${Math.random() * 100 + 139}, ${Math.random() * 50 + 92}, ${Math.random() * 100 + 146}, ${Math.random() * 0.5 + 0.3})`;
-          loadingParticles.appendChild(particle);
-        }
-
-        // Animate loading bar
         let width = 0;
         const interval = setInterval(() => {
-          if (width >= 100) {
-            clearInterval(interval);
-          } else {
-            width += 0.5;
-            loadingBar.style.width = width + '%';
-          }
-        }, 20);
+          if (width >= 100) clearInterval(interval);
+          else { width += 3; loadingBar.style.width = width + '%'; }
+        }, 18);
       }
       window.addEventListener('load', animateLoading);
 
       document.addEventListener('DOMContentLoaded', async () => {
-        // Capitalize first letter helper
         const capitalizeFirstLetter = str => str ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
-        // DOM Element references
+        // DOM
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
         const sidebarSearchContainer = document.getElementById('sidebarSearchContainer');
         const sidebarSearchToggle = document.getElementById('sidebarSearchToggle');
         const sidebarSearch = document.getElementById('sidebarSearch');
         const sidebarSearchClear = document.getElementById('sidebarSearchClear');
         const sidebarSearchCancel = document.getElementById('sidebarSearchCancel');
         const navbar = document.getElementById('navbar');
-        const mainHeader = document.getElementById('mainHeader');
-        const totalApiCount = document.getElementById('totalApiCount');
-        const totalCategoryCount = document.getElementById('totalCategoryCount');
-
-        // Notification Elements
+        const navbarSeparator = document.getElementById('navbarSeparator');
         const notificationToggle = document.getElementById('notificationToggle');
         const notificationBadge = document.getElementById('notificationBadge');
         const notificationPopup = document.getElementById('notificationPopup');
         const notificationList = document.getElementById('notificationList');
         const markAllReadButton = document.getElementById('markAllRead');
-
-        // Modal Elements for API response
+        const modal = document.getElementById('apiResponseModal');
+        const modalLabel = document.getElementById('apiResponseModalLabel');
+        const modalDesc = document.getElementById('apiResponseModalDesc');
         const apiEndpoint = document.getElementById('apiEndpoint');
         const apiEndpointActions = document.getElementById('apiEndpointActions');
         const apiResponseContent = document.getElementById('apiResponseContent');
         const apiResponseActions = document.getElementById('apiResponseActions');
-        const cancelQueryBtn = document.getElementById('cancelQueryBtn');
+        const queryInputContainer = document.getElementById('apiQueryInputContainer');
+        const submitBtn = document.getElementById('submitQueryBtn');
+        const methodSwitchContainer = document.getElementById('methodSwitchContainer');
+        const methodSwitch = document.getElementById('methodSwitch');
+        const linkHeader = document.getElementById('linkHeader');
+        const resultsHeader = document.getElementById('resultsHeader');
 
-        // Reset Sidebar State
+        // Reset sidebar
         function resetSidebar() {
           sidebarSearchContainer.classList.add('hidden');
           sidebarSearchToggle.classList.remove('hidden');
           sidebarSearch.value = '';
           sidebarSearchClear.classList.add('hidden');
           sidebarSearch.dispatchEvent(new Event('input'));
-          document.querySelectorAll('.category-content').forEach(content => content.classList.remove('open'));
-          document.querySelectorAll('#sidebarCategories button .category-arrow').forEach(arrow => arrow.classList.remove('open'));
-          document.querySelectorAll('#sidebarCategories > div').forEach(div => { div.style.display = ''; });
-          document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+          document.querySelectorAll('.category-content').forEach(c => c.classList.remove('open'));
+          document.querySelectorAll('#sidebarCategories button .category-arrow').forEach(a => a.classList.remove('open'));
         }
 
-        // Toggle Sidebar - Enhanced
+        // Sidebar toggle
         const toggleSidebar = () => {
           const isOpen = !sidebar.classList.contains('-translate-x-full');
           if (isOpen) {
             sidebar.classList.add('-translate-x-full');
-            sidebarBackdrop.classList.remove('active');
+            sidebarOverlay.classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
             resetSidebar();
           } else {
             sidebar.classList.remove('-translate-x-full');
-            sidebar.classList.add('sidebar-entrance');
-            sidebarBackdrop.classList.add('active');
+            sidebarOverlay.classList.remove('hidden');
             if (window.innerWidth < 1024) document.body.classList.add('overflow-hidden');
-            setTimeout(() => {
-              sidebar.classList.remove('sidebar-entrance');
-            }, 300);
           }
         };
         sidebarToggle.addEventListener('click', toggleSidebar);
-        sidebarBackdrop.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // Toggle Sidebar Search Input (Replacing "Cancel" with "Close" when closing)
+        // Search toggle
         const toggleSearch = () => {
           const isVisible = !sidebarSearchContainer.classList.contains('hidden');
           if (isVisible) {
-            // Change button text to "Close" when closing search
-            sidebarSearchCancel.textContent = "Close";
             sidebarSearchContainer.style.opacity = '0';
-            sidebarSearchContainer.style.transform = 'translateY(-10px)';
+            sidebarSearchContainer.style.transform = 'translateY(-12px)';
             setTimeout(() => {
               sidebarSearchContainer.classList.add('hidden');
               sidebarSearchToggle.classList.remove('hidden');
               sidebarSearchContainer.style.opacity = '';
               sidebarSearchContainer.style.transform = '';
-              // Collapse all categories when search is closed.
-              document.querySelectorAll('.category-content').forEach(content => content.classList.remove('open'));
-              document.querySelectorAll('#sidebarCategories button .category-arrow').forEach(a => a.classList.remove('open'));
-              // Unmark all category cards when search is closed
-              document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
-            }, 200);
+            }, 180);
           } else {
-            // Restore button text to "Cancel" when opening search
-            sidebarSearchCancel.textContent = "Cancel";
             sidebarSearchContainer.classList.remove('hidden');
             sidebarSearchToggle.classList.add('hidden');
             sidebarSearchContainer.style.opacity = '0';
-            sidebarSearchContainer.style.transform = 'translateY(-10px)';
+            sidebarSearchContainer.style.transform = 'translateY(-12px)';
             setTimeout(() => {
               sidebarSearchContainer.style.opacity = '1';
               sidebarSearchContainer.style.transform = 'translateY(0)';
@@ -1323,21 +650,10 @@
           }
         };
         sidebarSearchToggle.addEventListener('click', toggleSearch);
-        sidebarSearchCancel.addEventListener('click', () => {
-          toggleSearch();
-          sidebarSearch.value = '';
-          sidebarSearch.dispatchEvent(new Event('input'));
-          // Ensure all category cards are unmarked
-          document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
-        });
-        sidebarSearchClear.addEventListener('click', () => { 
-          sidebarSearch.value = ''; 
-          sidebarSearch.dispatchEvent(new Event('input')); 
-          sidebarSearch.focus(); 
-          sidebarSearchClear.classList.add('hidden'); 
-        });
+        sidebarSearchCancel.addEventListener('click', () => { toggleSearch(); sidebarSearch.value = ''; sidebarSearch.dispatchEvent(new Event('input')); });
+        sidebarSearchClear.addEventListener('click', () => { sidebarSearch.value = ''; sidebarSearch.dispatchEvent(new Event('input')); sidebarSearch.focus(); });
 
-        // Keyboard Shortcuts for Search and Escape
+        // Keyboard
         document.addEventListener('keydown', (e) => {
           if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
@@ -1348,498 +664,461 @@
             toggleSearch();
             sidebarSearch.value = '';
             sidebarSearch.dispatchEvent(new Event('input'));
-            // Ensure all category cards are unmarked
-            document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
           }
         });
 
-        // Sidebar Search Filtering with "No Results" Message - Enhanced
+        // Sidebar search
         sidebarSearch.addEventListener('input', () => {
-          const searchTerm = sidebarSearch.value.toLowerCase();
-          const apiItems = document.querySelectorAll('.sidebar-api-item');
-          const categoryHeaders = document.querySelectorAll('#sidebarCategories button');
-          sidebarSearchClear.classList.toggle('hidden', searchTerm.length === 0);
-
-          // Count visible items for statistics
-          let visibleItemsCount = 0;
-
-          apiItems.forEach(item => {
+          const term = sidebarSearch.value.toLowerCase().trim();
+          const items = document.querySelectorAll('.sidebar-api-item');
+          sidebarSearchClear.classList.toggle('hidden', term === '');
+          items.forEach(item => {
             const name = item.dataset.apiName.toLowerCase();
             const desc = item.dataset.apiDesc.toLowerCase();
-            if (name.includes(searchTerm) || desc.includes(searchTerm)) {
-              item.style.display = '';
-              visibleItemsCount++;
-              const categoryContent = item.closest('.category-content');
-              if (categoryContent && !categoryContent.classList.contains('open')) {
-                categoryContent.classList.add('open');
-                const categoryHeader = document.querySelector(`#sidebarCategories [data-target="${categoryContent.id}"]`);
-                if (categoryHeader) {
-                  categoryHeader.querySelector('.category-arrow').classList.add('open');
-                  categoryHeader.closest('.category-card').classList.add('active');
-                }
-              }
-            } else {
-              item.style.display = 'none';
+            const show = name.includes(term) || desc.includes(term);
+            item.style.display = show ? '' : 'none';
+            if (show) {
+              const cat = item.closest('.category-content');
+              if (cat && !cat.classList.contains('open')) cat.classList.add('open');
             }
           });
-
-          // Update category counts and visibility
-          let visibleCategoriesCount = 0;
-          categoryHeaders.forEach(header => {
-            const categoryId = header.dataset.target;
-            const content = document.getElementById(categoryId);
-            const visibleItems = Array.from(content.querySelectorAll('.sidebar-api-item')).filter(item => item.style.display !== 'none');
-            const countEl = header.querySelector('.category-count');
-            if (countEl) countEl.textContent = visibleItems.length;
-
-            const categoryCard = header.closest('.category-card');
-            if (visibleItems.length === 0 && searchTerm) {
-              categoryCard.style.display = 'none';
-            } else {
-              categoryCard.style.display = '';
-              visibleCategoriesCount++;
-            }
+          // Update counts & hide empty categories
+          document.querySelectorAll('#sidebarCategories button').forEach(header => {
+            const catId = header.dataset.target;
+            const visible = document.getElementById(catId).querySelectorAll('.sidebar-api-item[style*="display: none"]').length === 0 ? document.getElementById(catId).querySelectorAll('.sidebar-api-item').length : 0;
+            header.querySelector('span:last-child').textContent = `(${visible})`;
+            header.parentElement.style.display = (visible === 0 && term) ? 'none' : '';
           });
-
-          // Update total counts in footer
-          if (totalApiCount) totalApiCount.textContent = visibleItemsCount;
-          if (totalCategoryCount) totalCategoryCount.textContent = visibleCategoriesCount;
-
-          // Show "No Results" message if needed
-          const noResultsMsgId = "noResultsMessage";
-          let noResultsMsg = document.getElementById(noResultsMsgId);
-          if (visibleItemsCount === 0 && searchTerm.trim() !== "") {
-            if (!noResultsMsg) {
-              noResultsMsg = document.createElement('div');
-              noResultsMsg.id = noResultsMsgId;
-              noResultsMsg.className = "no-results-message";
-              noResultsMsg.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <p class="text-lg font-medium mb-1">No results found</p>
-                <p class="text-sm">Try adjusting your search terms</p>
-              `;
-              document.getElementById('sidebarCategories').appendChild(noResultsMsg);
-            }
-          } else {
-            if (noResultsMsg) noResultsMsg.remove();
-          }
         });
 
-        // API Item Click Handler: Opens Modal with API Details
-        document.addEventListener('click', event => {
-          const apiItem = event.target.closest('.sidebar-api-item');
-          if (apiItem) handleApiClick(apiItem.dataset);
+        // Click on API item
+        document.addEventListener('click', e => {
+          const item = e.target.closest('.sidebar-api-item');
+          if (item) handleApiClick(item.dataset);
         });
+
         function handleApiClick(dataset) {
-          const { apiPath, apiName, apiDesc, apiAuthor, apiMethod } = dataset;
-          const method = apiMethod ? apiMethod.toLowerCase() : 'get';
-          const modal = document.getElementById('apiResponseModal');
+          currentApiName = dataset.apiName;
+          const methodsRaw = dataset.apiMethod;
+          const methods = Array.isArray(methodsRaw) ? methodsRaw : JSON.parse(methodsRaw || '["get"]');
+          currentMethod = methods.includes('get') ? 'get' : methods[0];
+
           modal.classList.remove('hidden');
-          const modalRefs = {
-            label: document.getElementById('apiResponseModalLabel'),
-            desc: document.getElementById('apiResponseModalDesc'),
-            content: document.getElementById('apiResponseContent'),
-            endpoint: document.getElementById('apiEndpoint'),
-            spinner: document.getElementById('apiResponseLoading'),
-            queryInputContainer: document.getElementById('apiQueryInputContainer'),
-            submitBtn: document.getElementById('submitQueryBtn'),
-            cancelBtn: document.getElementById('cancelQueryBtn')
-          };
-          modalRefs.label.textContent = capitalizeFirstLetter(apiName);
-          modalRefs.desc.textContent = `${capitalizeFirstLetter(apiDesc)} ${apiAuthor ? 'by ' + capitalizeFirstLetter(apiAuthor) : ''}`;
-          modalRefs.content.textContent = '';
-          modalRefs.endpoint.textContent = '';
-          modalRefs.spinner.classList.add('hidden');
-          modalRefs.content.classList.add('hidden');
-          modalRefs.endpoint.classList.add('hidden');
-          modalRefs.queryInputContainer.innerHTML = '';
-          modalRefs.submitBtn.classList.add('hidden');
-          modalRefs.cancelBtn.classList.add('hidden');
+          modalLabel.textContent = capitalizeFirstLetter(dataset.apiName);
+          modalDesc.textContent = `${capitalizeFirstLetter(dataset.apiDesc)} ${dataset.apiAuthor ? '· ' + capitalizeFirstLetter(dataset.apiAuthor) : ''}`;
+
+          apiEndpoint.textContent = '';
+          apiEndpoint.classList.add('hidden');
+          apiResponseContent.textContent = '';
+          apiResponseContent.classList.add('hidden');
+          document.getElementById('apiResponseLoading').classList.add('hidden');
+          queryInputContainer.innerHTML = '';
+          submitBtn.classList.add('hidden');
           clearActionButtons(apiEndpointActions);
           clearActionButtons(apiResponseActions);
+          linkHeader.classList.add('hidden');
+          resultsHeader.classList.add('hidden');
 
-          let baseApiUrl = `${window.location.origin}${apiPath.split('?')[0]}`;
-          let paramsString = apiPath.split('?')[1] || '';
-          let params = new URLSearchParams(paramsString);
-          let hasParams = params.toString().length > 0;
+          currentBaseUrl = `${window.location.origin}/api${dataset.apiPath.split('?')[0]}`;
+          const paramsString = dataset.apiPath.split('?')[1] || '';
+          currentParams = new URLSearchParams(paramsString);
+          currentHasParams = paramsString.length > 0;
 
-          // Pre-populate Query Inputs if Parameters Exist
-          if (hasParams) {
-            const paramContainer = document.createElement('div');
-            paramContainer.className = 'space-y-4';
-            Array.from(params.keys()).forEach(param => {
-              const inputGroup = document.createElement('div');
-              inputGroup.className = 'flex flex-col';
-              const label = document.createElement('label');
-              label.htmlFor = `param-${param}`;
-              label.className = 'text-gray-300 mb-2 font-medium';
-              label.textContent = capitalizeFirstLetter(param);
-              const inputField = document.createElement('input');
-              inputField.type = 'text';
-              inputField.id = `param-${param}`;
-              inputField.className = 'bg-dark-600 border-0 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all';
-              inputField.placeholder = `Enter ${param}...`;
-              inputField.dataset.param = param;
-              inputField.value = params.get(param) || '';
-              inputGroup.appendChild(label);
-              inputGroup.appendChild(inputField);
-              paramContainer.appendChild(inputGroup);
+          // Method switch
+          methodSwitch.innerHTML = '';
+          if (methods.length > 1) {
+            methodSwitchContainer.classList.remove('hidden');
+            methods.forEach(m => {
+              const btn = document.createElement('button');
+              btn.textContent = m.toUpperCase();
+              btn.className = m === currentMethod ? 'active' : '';
+              btn.onclick = () => {
+                currentMethod = m;
+                Array.from(methodSwitch.children).forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderTester();
+              };
+              methodSwitch.appendChild(btn);
             });
-            modalRefs.queryInputContainer.appendChild(paramContainer);
-            modalRefs.submitBtn.classList.remove('hidden');
-            modalRefs.cancelBtn.classList.remove('hidden');
-            
-            // Cancel button functionality
-            modalRefs.cancelBtn.onclick = () => {
-              document.getElementById('apiResponseModal').classList.add('hidden');
-            };
-            
-            // Submit button functionality - now always enabled
-            modalRefs.submitBtn.disabled = false;
-            modalRefs.submitBtn.onclick = async () => {
-              const inputs = modalRefs.queryInputContainer.querySelectorAll('input');
-              const data = {};
-              inputs.forEach(input => {
-                data[input.dataset.param] = input.value.trim();
-              });
-              
-              modalRefs.queryInputContainer.innerHTML = '';
-              modalRefs.submitBtn.classList.add('hidden');
-              modalRefs.cancelBtn.classList.add('hidden');
-              
-              if (method === 'get') {
-                const newParams = new URLSearchParams(data);
-                const apiUrlWithParams = `${baseApiUrl}?${newParams.toString()}`;
-                handleApiRequest(apiUrlWithParams, modalRefs, apiName, 'get');
-              } else if (method === 'post') {
-                handleApiRequest(baseApiUrl, modalRefs, apiName, 'post', data);
+          } else {
+            methodSwitchContainer.classList.add('hidden');
+          }
+
+          renderTester();
+        }
+
+        function renderTester() {
+          queryInputContainer.innerHTML = '';
+          submitBtn.classList.add('hidden');
+          submitBtn.disabled = false;
+
+          if (currentMethod === 'post') {
+            // POST → JSON body (improved as requested)
+            const defaultBody = currentHasParams 
+              ? JSON.stringify(Object.fromEntries(currentParams), null, 2) 
+              : '{\n  \n}';
+            const label = document.createElement('label');
+            label.className = 'block text-sm text-gray-300 mb-2 font-medium';
+            label.textContent = 'Request Body (JSON)';
+            const ta = document.createElement('textarea');
+            ta.className = 'json-textarea w-full bg-dark-900 border border-dark-600 focus:border-primary-500 rounded-3xl p-5 text-gray-200';
+            ta.value = defaultBody;
+            ta.id = 'postBody';
+            queryInputContainer.appendChild(label);
+            queryInputContainer.appendChild(ta);
+
+            submitBtn.classList.remove('hidden');
+            submitBtn.textContent = 'Send POST Request';
+            submitBtn.onclick = async () => {
+              let bodyData;
+              try {
+                bodyData = JSON.parse(ta.value || '{}');
+              } catch {
+                alert('Invalid JSON in request body');
+                return;
               }
+              document.getElementById('apiResponseLoading').classList.remove('hidden');
+              apiEndpoint.classList.add('hidden');
+              apiResponseContent.classList.add('hidden');
+              handleApiRequest(currentBaseUrl, { 
+                content: apiResponseContent, 
+                endpoint: apiEndpoint, 
+                spinner: document.getElementById('apiResponseLoading'),
+                actionsEndpoint: apiEndpointActions,
+                actionsResponse: apiResponseActions 
+              }, currentApiName, 'post', bodyData);
             };
           } else {
-            handleApiRequest(baseApiUrl, modalRefs, apiName, method);
+            // GET → original param inputs (full original functionality preserved)
+            if (currentHasParams) {
+              const paramContainer = document.createElement('div');
+              paramContainer.className = 'space-y-5';
+              Array.from(currentParams.keys()).forEach(param => {
+                const group = document.createElement('div');
+                group.className = 'flex flex-col';
+                const label = document.createElement('label');
+                label.className = 'text-gray-300 mb-2 font-medium text-sm';
+                label.textContent = capitalizeFirstLetter(param);
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `param-${param}`;
+                input.className = 'bg-dark-600 border border-dark-500 text-white rounded-2xl px-5 py-3.5 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all';
+                input.placeholder = `Enter ${param}...`;
+                input.value = currentParams.get(param) || '';
+                input.dataset.param = param;
+                input.addEventListener('input', validateInputs);
+                group.append(label, input);
+                paramContainer.appendChild(group);
+              });
+              queryInputContainer.appendChild(paramContainer);
+
+              submitBtn.classList.remove('hidden');
+              submitBtn.textContent = 'Send GET Request';
+              submitBtn.onclick = () => {
+                const inputs = queryInputContainer.querySelectorAll('input');
+                const data = {};
+                let valid = true;
+                inputs.forEach(i => {
+                  if (!i.value.trim()) valid = false;
+                  data[i.dataset.param] = i.value.trim();
+                });
+                if (!valid) return;
+                const newParams = new URLSearchParams(data);
+                const fullUrl = `${currentBaseUrl}?${newParams}`;
+                document.getElementById('apiResponseLoading').classList.remove('hidden');
+                apiEndpoint.classList.add('hidden');
+                apiResponseContent.classList.add('hidden');
+                handleApiRequest(fullUrl, { 
+                  content: apiResponseContent, 
+                  endpoint: apiEndpoint, 
+                  spinner: document.getElementById('apiResponseLoading'),
+                  actionsEndpoint: apiEndpointActions,
+                  actionsResponse: apiResponseActions 
+                }, currentApiName, 'get');
+              };
+              validateInputs();
+            } else {
+              // No params → direct GET (original behavior)
+              document.getElementById('apiResponseLoading').classList.remove('hidden');
+              apiEndpoint.classList.add('hidden');
+              apiResponseContent.classList.add('hidden');
+              handleApiRequest(currentBaseUrl, { 
+                content: apiResponseContent, 
+                endpoint: apiEndpoint, 
+                spinner: document.getElementById('apiResponseLoading'),
+                actionsEndpoint: apiEndpointActions,
+                actionsResponse: apiResponseActions 
+              }, currentApiName, 'get');
+            }
           }
         }
-        
-        async function handleApiRequest(apiUrl, modalRefs, apiName, method = 'get', bodyData = null) {
-          modalRefs.spinner.classList.remove('hidden');
-          modalRefs.content.classList.add('hidden');
+
+        function validateInputs() {
+          const inputs = queryInputContainer.querySelectorAll('input');
+          const isValid = Array.from(inputs).every(i => i.value.trim() !== '');
+          submitBtn.disabled = !isValid;
+        }
+
+        async function handleApiRequest(apiUrl, refs, apiName, method = 'get', bodyData = null) {
+          refs.spinner.classList.remove('hidden');
+          refs.content.classList.add('hidden');
           try {
-            const options = {};
-            if (method === 'post') {
-              options.method = 'POST';
+            const options = { method: method.toUpperCase() };
+            if (method === 'post' && bodyData) {
               options.headers = { 'Content-Type': 'application/json' };
-              if (bodyData) options.body = JSON.stringify(bodyData);
+              options.body = JSON.stringify(bodyData);
             }
             const response = await fetch(apiUrl, options);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const contentType = response.headers.get('Content-Type');
-            clearActionButtons(apiEndpointActions);
-            clearActionButtons(apiResponseActions);
-            if (contentType && contentType.startsWith('image/')) {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const contentType = response.headers.get('Content-Type') || '';
+            clearActionButtons(refs.actionsEndpoint);
+            clearActionButtons(refs.actionsResponse);
+
+            refs.endpoint.textContent = apiUrl;
+            refs.endpoint.classList.remove('hidden');
+            linkHeader.classList.remove('hidden');
+            addCopyButtonToContainer(refs.actionsEndpoint, apiUrl);
+
+            if (contentType.startsWith('image/')) {
               const blob = await response.blob();
               const imageUrl = URL.createObjectURL(blob);
               const img = document.createElement('img');
               img.src = imageUrl;
               img.alt = apiName;
-              img.className = 'max-w-full h-auto rounded-lg';
-              modalRefs.content.innerHTML = '';
-              modalRefs.content.appendChild(img);
-              addDownloadButtonToContainer(apiResponseActions, imageUrl, `${apiName}.jpg`);
+              img.className = 'max-w-full h-auto rounded-2xl shadow-md';
+              refs.content.innerHTML = '';
+              refs.content.appendChild(img);
+              addDownloadButtonToContainer(refs.actionsResponse, imageUrl, `${apiName.replace(/\s+/g, '-')}.jpg`);
             } else {
               const data = await response.json();
-              const formattedJson = JSON.stringify(data, null, 2);
-              modalRefs.content.innerHTML = formattedJson.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-                let cls = 'json-number';
-                if (/^"/.test(match)) { cls = /:$/.test(match) ? 'json-key' : 'json-string'; }
-                else if (/true|false/.test(match)) { cls = 'json-boolean'; }
-                else if (/null/.test(match)) { cls = 'json-null'; }
-                return '<span class="' + cls + '">' + match + '</span>';
+              const formatted = JSON.stringify(data, null, 2);
+              refs.content.innerHTML = formatted.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'text-amber-300';
+                if (/^"/.test(match)) cls = /:$/.test(match) ? 'text-primary-300' : 'text-emerald-300';
+                else if (/true|false/.test(match)) cls = 'text-sky-300';
+                else if (/null/.test(match)) cls = 'text-rose-300';
+                return `<span class="${cls}">${match}</span>`;
               });
-              addCopyButtonToContainer(apiResponseActions, formattedJson);
+              addCopyButtonToContainer(refs.actionsResponse, formatted);
             }
-            modalRefs.endpoint.textContent = apiUrl;
-            modalRefs.endpoint.classList.remove('hidden');
-            addCopyButtonToContainer(apiEndpointActions, apiUrl);
+            resultsHeader.classList.remove('hidden');
           } catch (error) {
-            modalRefs.content.textContent = `Error: ${error.message}`;
-            modalRefs.content.classList.add('text-red-400');
+            refs.content.innerHTML = `<span class="text-red-400">Error: ${error.message}</span>`;
+            resultsHeader.classList.remove('hidden');
           } finally {
-            modalRefs.spinner.classList.add('hidden');
-            modalRefs.content.classList.remove('hidden');
+            refs.spinner.classList.add('hidden');
+            refs.content.classList.remove('hidden');
           }
         }
 
-        // Modal Close Button Handler
-        document.getElementById('closeModalBtn').addEventListener('click', () => {
-          document.getElementById('apiResponseModal').classList.add('hidden');
-        });
+        // Close modal
+        document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.add('hidden'));
 
-        // Notification Handling
-        notificationToggle.addEventListener('click', (e) => {
+        // Notifications (full original functionality)
+        let notifications = [];
+        const STORAGE_KEY = 'dashboard_notifications';
+        function loadNotifications() {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return saved ? JSON.parse(saved) : [];
+        }
+        function saveNotifications() { localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications)); }
+        function updateNotificationBadge() {
+          const unread = notifications.filter(n => !n.read).length;
+          notificationBadge.textContent = unread || '';
+          notificationBadge.classList.toggle('hidden', unread === 0);
+        }
+        function renderNotifications() {
+          notificationList.innerHTML = '';
+          if (notifications.length === 0) {
+            notificationList.innerHTML = '<div class="p-4 text-gray-400 text-center text-sm">No notifications</div>';
+            return;
+          }
+          notifications.forEach((n, i) => {
+            const el = document.createElement('div');
+            el.className = `p-4 rounded-2xl cursor-pointer transition-all ${n.read ? 'bg-dark-700' : 'bg-gradient-to-r from-dark-700 to-dark-600'}`;
+            el.innerHTML = `
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-2 h-2 mt-1.5 rounded-full ${n.read ? 'bg-zinc-500' : 'bg-primary-400 animate-pulse'}"></div>
+                <div>
+                  <h4 class="font-semibold text-sm">${n.title}</h4>
+                  <p class="text-xs text-gray-400 mt-0.5">${n.message}</p>
+                </div>
+              </div>
+            `;
+            el.addEventListener('click', () => {
+              notifications[i].read = true;
+              saveNotifications();
+              updateNotificationBadge();
+              renderNotifications();
+            });
+            notificationList.appendChild(el);
+          });
+        }
+        notificationToggle.addEventListener('click', e => {
           e.stopPropagation();
           notificationPopup.classList.toggle('hidden');
           renderNotifications();
         });
-        notificationPopup.addEventListener('click', (e) => { e.stopPropagation(); });
-        document.addEventListener('click', (e) => { if (!notificationPopup.contains(e.target) && e.target !== notificationToggle) notificationPopup.classList.add('hidden'); });
-
-        // Mark All as Read
+        document.addEventListener('click', e => {
+          if (!notificationPopup.contains(e.target) && e.target !== notificationToggle) notificationPopup.classList.add('hidden');
+        });
         markAllReadButton.addEventListener('click', () => {
-          notifications = notifications.map(n => ({ ...n, read: true }));
+          notifications = notifications.map(n => ({...n, read: true}));
           saveNotifications();
           updateNotificationBadge();
           renderNotifications();
         });
 
-        // UPDATED: Header visibility control on scroll
+        // Navbar scroll
         function updateNavbarAppearance() {
-          if (window.scrollY > 50) {
-            navbar.classList.add('bg-dark-800/80', 'backdrop-blur-md', 'shadow-lg');
-            mainHeader.classList.remove('header-hidden');
+          if (window.scrollY > 20) {
+            navbar.classList.add('bg-dark-800/90', 'backdrop-blur-xl', 'shadow-2xl');
+            navbarSeparator.classList.remove('opacity-0');
+            document.getElementById('header').style.opacity = '1';
+            document.getElementById('versionHeader').style.opacity = '1';
           } else {
-            navbar.classList.remove('bg-dark-800/80', 'backdrop-blur-md', 'shadow-lg');
-            mainHeader.classList.add('header-hidden');
+            navbar.classList.remove('bg-dark-800/90', 'backdrop-blur-xl', 'shadow-2xl');
+            navbarSeparator.classList.add('opacity-0');
+            document.getElementById('header').style.opacity = '0';
+            document.getElementById('versionHeader').style.opacity = '0';
           }
         }
         window.addEventListener('scroll', updateNavbarAppearance);
-        // Initialize header state
-        updateNavbarAppearance();
 
-        // Notifications: Local Storage Integration
-        let notifications = [];
-        const STORAGE_KEY = 'dashboard_notifications';
-        function loadNotifications() {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) {
-            try { return JSON.parse(saved); }
-            catch (e) { console.error('Error parsing notifications:', e); return []; }
-          }
-          return [];
-        }
-        function saveNotifications() { localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications)); }
-        function updateNotificationBadge() {
-          const unread = notifications.filter(n => !n.read).length;
-          if (unread > 0) {
-            notificationBadge.textContent = unread;
-            notificationBadge.classList.remove('hidden');
-          } else {
-            notificationBadge.classList.add('hidden');
-          }
-        }
-        function renderNotifications() {
-          notificationList.innerHTML = '';
-          if (notifications.length === 0) {
-            notificationList.innerHTML = '<div class="p-3 text-gray-400 text-center">No notifications</div>';
-            return;
-          }
-          notifications.forEach((n, i) => {
-            const el = document.createElement('div');
-            el.className = `p-3 ${n.read ? 'bg-dark-700' : 'bg-gradient-to-r from-dark-700 to-dark-600'} rounded-md transition-all hover:bg-dark-600 cursor-pointer notification-item`;
-            el.innerHTML = `
-              <div class="flex items-start">
-                <div class="flex-shrink-0 mr-3">
-                  <div class="w-2 h-2 mt-1.5 rounded-full ${n.read ? 'bg-gray-500' : 'bg-primary-400 animate-pulse'}" aria-hidden="true"></div>
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-semibold">${n.title}</h4>
-                  <p class="text-sm text-gray-400">${n.message}</p>
-                </div>
-              </div>
-            `;
-            el.addEventListener('click', () => { notifications[i].read = true; saveNotifications(); updateNotificationBadge(); renderNotifications(); });
-            notificationList.appendChild(el);
-          });
-        }
-
-        // Load Settings and API Information
+        // Load data (full original + array support)
         try {
           const settings = await fetch('/settings.json').then(r => r.json());
           const apiInfo = await fetch('/api/info').then(r => r.json());
-          const setContent = (id, property, value) => {
-            const el = document.getElementById(id);
-            if (el) {
-              if (property === 'textContent' && ['header', 'sidebarHeader', 'name'].includes(id)) {
-                el.textContent = value;
-                el.classList.add('gradient-text');
-              } else { el[property] = value; }
-            }
-          };
 
-          // Dynamic Header Image
-          const dynamicImage = document.getElementById('dynamicImage');
-          if (dynamicImage && settings.header && settings.header.imageSrc) {
-            let src = settings.header.imageSrc;
-            if (Array.isArray(src)) src = src[Math.floor(Math.random() * src.length)];
-            dynamicImage.src = src;
-            dynamicImage.alt = settings.name || "Dashboard";
-            const setImageSize = () => {
-              const width = window.innerWidth;
-              if (width < 768) { dynamicImage.classList.add('max-w-[80%]'); dynamicImage.classList.remove('max-w-sm', 'max-w-md'); }
-              else if (width < 1200) { dynamicImage.classList.add('max-w-sm'); dynamicImage.classList.remove('max-w-[80%]', 'max-w-md'); }
-              else { dynamicImage.classList.add('max-w-md'); dynamicImage.classList.remove('max-w-[80%]', 'max-w-sm'); }
-            };
-            setImageSize();
-            window.addEventListener('resize', setImageSize);
+          // Populate header & banner
+          document.getElementById('header').textContent = settings.name || "API Dashboard";
+          document.getElementById('sidebarHeader').textContent = settings.name || "API Dashboard";
+          document.getElementById('name').textContent = settings.name || "API Dashboard";
+          document.getElementById('version').textContent = settings.version || "v1.0";
+          document.getElementById('versionHeader').textContent = settings.header?.status || "Online";
+          document.getElementById('sidebarVersion').textContent = settings.version || "v1.0";
+          document.getElementById('description').textContent = settings.description || "Premium API Explorer";
+          document.getElementById('headerStatusText').textContent = settings.header?.status || "Online";
+
+          if (settings.header?.imageSrc) {
+            const imgSrc = Array.isArray(settings.header.imageSrc) ? settings.header.imageSrc[Math.floor(Math.random()*settings.header.imageSrc.length)] : settings.header.imageSrc;
+            document.getElementById('dynamicImage').src = imgSrc;
           }
 
-          setContent('page', 'textContent', settings.name || "API Dashboard");
-          setContent('header', 'textContent', settings.name || "API Dashboard");
-          setContent('name', 'textContent', settings.name || "API Dashboard");
-          setContent('version', 'textContent', settings.version || "v1.0 Beta");
-          setContent('versionHeader', 'textContent', settings.version || "v1.0 Beta");
-          setContent('description', 'textContent', settings.description || "Interactive API Explorer");
-          setContent('headerStatusText', 'textContent', settings.header.status || "Online!");
-          setContent('sidebarHeader', 'textContent', settings.name || "API Dashboard");
-          setContent('sidebarVersion', 'textContent', settings.version || "v1.0 Beta");
-
-          // External Links Section
-          const apiLinksContainer = document.getElementById('apiLinks');
-          if (apiLinksContainer && settings.links?.length) {
-            settings.links.forEach(({ url, name }) => {
-              const link = document.createElement('a');
-              link.href = url; link.textContent = name; link.target = '_blank';
-              link.className = 'small-frosted-card';
-              apiLinksContainer.appendChild(link);
+          // Links
+          const linksContainer = document.getElementById('apiLinks');
+          if (settings.links) {
+            settings.links.forEach(l => {
+              const a = document.createElement('a');
+              a.href = l.url;
+              a.textContent = l.name;
+              a.target = '_blank';
+              a.className = 'text-primary-400 hover:text-primary-300 transition-colors border border-dark-600 bg-dark-700 rounded-2xl px-5 py-2.5 text-sm font-medium';
+              linksContainer.appendChild(a);
             });
           }
 
-          // Merge Notifications from Settings and Local Storage
-          const saved = loadNotifications();
-          if (settings.notifications && Array.isArray(settings.notifications)) {
-            const map = new Map();
-            saved.forEach(n => map.set(n.title + n.message, n));
-            settings.notifications.forEach(n => {
-              const key = n.title + n.message;
-              n.read = map.has(key) ? map.get(key).read : false;
-              map.set(key, n);
-            });
+          // Notifications
+          notifications = loadNotifications();
+          if (settings.notifications) {
+            const map = new Map(notifications.map(n => [`${n.title}${n.message}`, n]));
+            settings.notifications.forEach(n => map.set(`${n.title}${n.message}`, {...n, read: map.has(`${n.title}${n.message}`) ? map.get(`${n.title}${n.message}`).read : false}));
             notifications = Array.from(map.values());
-            saveNotifications();
-            updateNotificationBadge();
-          } else { notifications = saved; updateNotificationBadge(); }
+          }
+          saveNotifications();
+          updateNotificationBadge();
 
-          // Process API Categories & Endpoints
-          const sortedCategories = apiInfo.categories.sort((a, b) => a.name.localeCompare(b.name));
+          // Stats & Sidebar (full original logic + multi-method support)
+          const sortedCategories = apiInfo.categories.sort((a,b) => a.name.localeCompare(b.name));
           let totalApis = 0, getEndpoints = 0, postEndpoints = 0;
-          sortedCategories.forEach(category => {
-            totalApis += category.items.length;
-            category.items.forEach(item => {
-              if (item.method.toLowerCase() === 'get') getEndpoints++;
-              if (item.method.toLowerCase() === 'post') postEndpoints++;
+          sortedCategories.forEach(cat => {
+            totalApis += cat.items.length;
+            cat.items.forEach(item => {
+              const mArr = Array.isArray(item.method) ? item.method.map(m => m.toLowerCase()) : [item.method.toLowerCase()];
+              if (mArr.includes('get')) getEndpoints++;
+              if (mArr.includes('post')) postEndpoints++;
             });
           });
-          setContent('totalApis', 'textContent', totalApis);
-          setContent('totalCategories', 'textContent', sortedCategories.length);
-          setContent('getEndpoints', 'textContent', getEndpoints);
-          setContent('postEndpoints', 'textContent', postEndpoints);
+          document.getElementById('totalApis').textContent = totalApis;
+          document.getElementById('totalCategories').textContent = sortedCategories.length;
+          document.getElementById('getEndpoints').textContent = getEndpoints;
+          document.getElementById('postEndpoints').textContent = postEndpoints;
 
-          // Update sidebar footer counters
-          if (totalApiCount) totalApiCount.textContent = totalApis;
-          if (totalCategoryCount) totalCategoryCount.textContent = sortedCategories.length;
-
-          // Render Sidebar Categories as Card-Style Blocks with Active Hover/State Mark - Enhanced
           const sidebarCategories = document.getElementById('sidebarCategories');
-          sidebarCategories.innerHTML = '';
-          sidebarCategories.className = 'flex-1 overflow-y-auto px-4 py-4 space-y-2'; // Consistent spacing
           sortedCategories.forEach((category, idx) => {
             const catId = `category-${idx}`;
-            const catCard = document.createElement('div');
-            catCard.className = 'category-card slideInRight';
-            catCard.style.animationDelay = `${idx * 0.05}s`;
-
+            const catEl = document.createElement('div');
+            catEl.className = 'mb-6';
             const catHeader = document.createElement('button');
-            catHeader.className = 'w-full focus:outline-none transition-colors text-left';
+            catHeader.className = 'w-full flex items-center justify-between p-3 rounded-2xl hover:bg-dark-600 text-left transition-colors';
             catHeader.dataset.target = catId;
             const capName = capitalizeFirstLetter(category.name);
             catHeader.innerHTML = `
-              <div class="category-header-container">
-                <div class="category-header-left">
-                  <span class="category-header-text font-medium">${capName}</span>
-                  <span class="category-count">${category.items.length}</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 category-arrow text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+              <div class="flex items-center">
+                <span class="font-medium">${capName}</span>
+                <span class="ml-3 text-xs text-gray-400 font-mono">(${category.items.length})</span>
               </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 category-arrow text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
             `;
-            const catContent = document.createElement('div'); 
+
+            const catContent = document.createElement('div');
             catContent.id = catId;
-            catContent.className = 'category-content pl-2';
-            const sortedItems = category.items.sort((a, b) => a.name.localeCompare(b.name));
+            catContent.className = 'category-content pl-4 mt-1 space-y-1';
+
+            const sortedItems = category.items.sort((a,b) => a.name.localeCompare(b.name));
             sortedItems.forEach(item => {
               const capItem = capitalizeFirstLetter(item.name);
-              const methodColors = {
-                get: 'bg-green-900/50 text-green-300 border border-green-800/30',
-                post: 'bg-blue-900/50 text-blue-300 border border-blue-800/30',
-                put: 'bg-amber-900/50 text-amber-300 border border-amber-800/30',
-                delete: 'bg-red-900/50 text-red-300 border border-red-800/30',
-                patch: 'bg-purple-900/50 text-purple-300 border border-purple-800/30'
-              };
-              const method = item.method.toLowerCase();
-              const methodColor = methodColors[method] || 'bg-gray-800 text-gray-300 border border-gray-700/30';
+              const mArr = Array.isArray(item.method) ? item.method.map(m => m.toLowerCase()) : [item.method.toLowerCase()];
+              let badgeHTML = '';
+              const methodColors = { get: 'bg-emerald-900/60 text-emerald-300', post: 'bg-sky-900/60 text-sky-300' };
+              mArr.forEach(m => {
+                badgeHTML += `<span class="${methodColors[m] || 'bg-zinc-800 text-zinc-300'} px-3 py-px text-xs rounded-xl uppercase font-mono tracking-widest method-badge">${m.toUpperCase()}</span>`;
+              });
+
               const itemEl = document.createElement('div');
-              itemEl.className = 'py-2 px-2 my-1 hover:bg-dark-600 rounded-md transition-colors cursor-pointer sidebar-api-item';
+              itemEl.className = 'flex items-center justify-between px-4 py-3 hover:bg-dark-600 rounded-2xl cursor-pointer sidebar-api-item transition-colors';
               itemEl.dataset.apiPath = item.path;
               itemEl.dataset.apiName = item.name;
-              itemEl.dataset.apiDesc = item.desc;
+              itemEl.dataset.apiDesc = item.desc || '';
               itemEl.dataset.apiAuthor = item.author || '';
-              itemEl.dataset.apiMethod = method;
+              itemEl.dataset.apiMethod = JSON.stringify(mArr);   // array support
               itemEl.innerHTML = `
-                <div class="flex items-center justify-between">
-                  <span class="text-sm truncate">${capItem}</span>
-                  <span class="${methodColor} px-2 py-0.5 text-xs rounded uppercase method-badge">${method}</span>
-                </div>
+                <span class="text-sm font-medium truncate">${capItem}</span>
+                <div class="flex gap-1">${badgeHTML}</div>
               `;
               catContent.appendChild(itemEl);
             });
-            catCard.appendChild(catHeader);
-            catCard.appendChild(catContent);
-            sidebarCategories.appendChild(catCard);
 
-            // Only one category open at a time and mark active card on tap/touch.
+            catEl.appendChild(catHeader);
+            catEl.appendChild(catContent);
+            sidebarCategories.appendChild(catEl);
+
+            // Single category open
             catHeader.addEventListener('click', () => {
-              // Remove active mark from all category cards.
-              document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
-
               const target = document.getElementById(catId);
               const arrow = catHeader.querySelector('.category-arrow');
-              if (!target.classList.contains('open')) {
-                // Close any open categories.
-                document.querySelectorAll('.category-content').forEach(content => content.classList.remove('open'));
-                document.querySelectorAll('#sidebarCategories button .category-arrow').forEach(a => a.classList.remove('open'));
+              const wasOpen = target.classList.contains('open');
+              document.querySelectorAll('.category-content').forEach(c => c.classList.remove('open'));
+              document.querySelectorAll('#sidebarCategories button .category-arrow').forEach(a => a.classList.remove('open'));
+              if (!wasOpen) {
                 target.classList.add('open');
                 arrow.classList.add('open');
-                // Mark this category card as active.
-                catCard.classList.add('active');
-              } else {
-                target.classList.remove('open');
-                arrow.classList.remove('open');
-                // Remove active state if re-tapping an open card.
-                catCard.classList.remove('active');
               }
             });
           });
-        } catch (error) {
-          console.error('Error loading settings or API info:', error);
+        } catch (e) {
+          console.error('Load error:', e);
         } finally {
           setTimeout(() => {
-            const loadingScreen = document.getElementById("loadingScreen");
-            loadingScreen.style.opacity = '0';
-            loadingScreen.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
-          }, 2000);
+            const ls = document.getElementById('loadingScreen');
+            ls.style.opacity = '0';
+            setTimeout(() => ls.style.display = 'none', 500);
+          }, 1200);
         }
       });
     </script>
   </body>
 </html>
-
-<Actions>
-  <Action name="Add dark/light mode toggle" description="Implement a theme toggle button in the unified header" />
-  <Action name="Add more API visualization options" description="Add charts and graphs for API response visualization" />
-  <Action name="Implement user authentication" description="Add login/signup functionality to secure the dashboard" />
-  <Action name="Create custom API documentation" description="Add detailed documentation pages for each API endpoint" />
-  <Action name="Add export functionality" description="Allow exporting API responses in different formats" />
-</Actions>

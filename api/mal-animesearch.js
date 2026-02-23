@@ -6,14 +6,19 @@ const meta = {
   version: "1.0.0",
   description: "Searches for anime on MyAnimeList based on a query parameter",
   author: "Rynn",
-  method: "get",
+  method: ["get", "post"],
   category: "anime",
-  path: "/animesearch?query=" // Expects query parameter: ?query=your_search_term
+  path: "/animesearch?query="
 };
 
 async function onStart({ res, req }) {
   try {
-    const searchQuery = req.query.query;
+    let searchQuery;
+    if (req.method === 'POST') {
+      searchQuery = req.body.query;
+    } else {
+      searchQuery = req.query.query;
+    }
     if (!searchQuery) {
       throw new Error("Please provide a search query using the 'query' parameter.");
     }
