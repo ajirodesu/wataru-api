@@ -369,6 +369,13 @@
               <span id="headerStatusText"></span>
             </div>
             <div id="apiLinks" class="flex flex-wrap gap-4 justify-center"></div>
+
+            <!-- Operator from settings.apiSettings.operator -->
+            <p id="operatorInfo" class="mt-6 text-xs text-gray-500 font-mono text-center flex items-center justify-center gap-2">
+              <span class="text-[10px] opacity-50">◆</span> 
+              OPERATED BY 
+              <span id="operatorName" class="text-primary-400 font-semibold"></span>
+            </p>
           </div>
         </section>
 
@@ -986,10 +993,13 @@
         }
         window.addEventListener('scroll', updateNavbarAppearance);
 
-        // Load data (full original + array support)
+        // Load data (full original + array support + NEW: imageSize & operator)
         try {
           const settings = await fetch('/settings.json').then(r => r.json());
           const apiInfo = await fetch('/api/info').then(r => r.json());
+
+          // Set page title from settings
+          document.title = settings.name ? `${settings.name} – API Dashboard` : 'API Dashboard';
 
           // Populate header & banner
           document.getElementById('header').textContent = settings.name || "API Dashboard";
@@ -1001,9 +1011,29 @@
           document.getElementById('description').textContent = settings.description || "Premium API Explorer";
           document.getElementById('headerStatusText').textContent = settings.header?.status || "Online";
 
+          // Dynamic banner image (already supported array + random)
           if (settings.header?.imageSrc) {
-            const imgSrc = Array.isArray(settings.header.imageSrc) ? settings.header.imageSrc[Math.floor(Math.random()*settings.header.imageSrc.length)] : settings.header.imageSrc;
-            document.getElementById('dynamicImage').src = imgSrc;
+            const imgSrc = Array.isArray(settings.header.imageSrc) 
+              ? settings.header.imageSrc[Math.floor(Math.random() * settings.header.imageSrc.length)] 
+              : settings.header.imageSrc;
+            const dynamicImageEl = document.getElementById('dynamicImage');
+            dynamicImageEl.src = imgSrc;
+
+            // NEW: Respect header.imageSize (mobile / tablet / desktop percentages)
+            if (settings.header.imageSize) {
+              const sizes = settings.header.imageSize;
+              dynamicImageEl.style.maxWidth = 'none'; // override Tailwind lg:max-w-md
+              const applyImageSize = () => {
+                const w = window.innerWidth;
+                let targetWidth;
+                if (w < 768) targetWidth = sizes.mobile || '100%';
+                else if (w < 1024) targetWidth = sizes.tablet || '50%';
+                else targetWidth = sizes.desktop || '40%';
+                dynamicImageEl.style.width = targetWidth;
+              };
+              applyImageSize();
+              window.addEventListener('resize', applyImageSize);
+            }
           }
 
           // Links
@@ -1017,6 +1047,15 @@
               a.className = 'text-primary-400 hover:text-primary-300 transition-colors border border-dark-600 bg-dark-700 rounded-2xl px-5 py-2.5 text-sm font-medium';
               linksContainer.appendChild(a);
             });
+          }
+
+          // NEW: Operator from apiSettings (displayed below links)
+          const operatorNameEl = document.getElementById('operatorName');
+          const operatorInfoEl = document.getElementById('operatorInfo');
+          if (settings.apiSettings?.operator) {
+            operatorNameEl.textContent = settings.apiSettings.operator;
+          } else {
+            operatorInfoEl.classList.add('hidden');
           }
 
           // Notifications
