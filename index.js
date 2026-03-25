@@ -1,150 +1,29 @@
-const express = require('express');
-const fs = require('fs');
+// index.js
+
 const path = require('path');
-const chalk = require('chalk');
-const cors = require('cors');
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+// Ensure the working directory is always the project root
+process.chdir(__dirname);
 
-app.enable("trust proxy");
-app.set("json spaces", 2);
+// Load the app from core/app.js
+const app = require(path.join(process.cwd(), 'core', 'app.js'));
 
-// Middleware to parse JSON and URL-encoded bodies
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-
-// Serve static files from the "web" folder
-app.use('/', express.static(path.join(__dirname, 'web')));
-
-// Expose settings.json
-app.get('/settings.json', (req, res) => {
-  res.sendFile(path.join(__dirname, 'settings.json'));
+// Optional: handle uncaught errors globally
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
 });
 
-// Load settings
-const settingsPath = path.join(__dirname, 'settings.json');
-const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
-
-// Middleware to augment JSON responses
-app.use((req, res, next) => {
-  const originalJson = res.json;
-  res.json = function (data) {
-    if (data && typeof data === 'object') {
-      const responseData = {
-        status: data.status,
-        operator: (settings.apiSettings && settings.apiSettings.operator) || "Created Using Rynn UI",
-        ...data
-      };
-      return originalJson.call(this, responseData);
-    }
-    return originalJson.call(this, data);
-  };
-  next();
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err);
 });
 
-// Load API modules from the "api" folder (recursive)
-const apiFolder = path.join(__dirname, 'api');
-let totalRoutes = 0;
-const apiModules = [];
-
-// Recursive loader
-const loadModules = (dir) => {
-  fs.readdirSync(dir).forEach((file) => {
-    const filePath = path.join(dir, file);
-    if (fs.statSync(filePath).isDirectory()) {
-      loadModules(filePath);
-    } else if (path.extname(file) === '.js') {
-      try {
-        const module = require(filePath);
-        if (!module.meta || !module.onStart || typeof module.onStart !== 'function') {
-          console.warn(chalk.bgHex('#FF9999').hex('#333').bold(`Invalid module in ${filePath}`));
-          return;
-        }
-
-        const basePath = module.meta.path.split('?')[0];
-        const routePath = '/api' + basePath;
-
-        // Support single string or array of methods
-        let methods = module.meta.method || ['get'];
-        if (!Array.isArray(methods)) methods = [methods];
-        methods = methods.map(m => m.toLowerCase());
-
-        // Register route for each method
-        methods.forEach(meth => {
-          app[meth](routePath, (req, res) => {
-            console.log(chalk.bgHex('#99FF99').hex('#333').bold(`Handling ${meth.toUpperCase()} request for ${routePath}`));
-            module.onStart({ req, res });
-          });
-        });
-
-        // Push to apiModules (preserve original method value - can be string or array)
-        apiModules.push({
-          name: module.meta.name,
-          description: module.meta.description,
-          category: module.meta.category,
-          path: module.meta.path,
-          author: module.meta.author,
-          method: module.meta.method || 'get'
-        });
-
-        totalRoutes += methods.length;
-        console.log(chalk.bgHex('#FFFF99').hex('#333').bold(`Loaded Route: ${module.meta.name} (${methods.map(m => m.toUpperCase()).join('/')})`));
-      } catch (error) {
-        console.error(chalk.bgHex('#FF9999').hex('#333').bold(`Error loading module ${filePath}: ${error.message}`));
-      }
-    }
-  });
-};
-
-loadModules(apiFolder);
-
-console.log(chalk.bgHex('#90EE90').hex('#333').bold('Load Complete! ✓'));
-console.log(chalk.bgHex('#90EE90').hex('#333').bold(`Total Routes Loaded: ${totalRoutes}`));
-
-// API Info endpoint (full original logic + supports method array)
-app.get('/api/info', (req, res) => {
-  const categories = {};
-  apiModules.forEach(module => {
-    if (!categories[module.category]) {
-      categories[module.category] = { name: module.category, items: [] };
-    }
-    categories[module.category].items.push({
-      name: module.name,
-      desc: module.description,
-      path: module.path,
-      author: module.author,
-      method: module.method   // can be string or array - frontend handles both
-    });
-  });
-  res.json({ categories: Object.values(categories) });
+// Graceful shutdown
+process.on('SIGINT', () => {
+  console.log('\nShutting down server...');
+  process.exit(0);
 });
 
-// Serve index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'portal.html'));
+process.on('SIGTERM', () => {
+  console.log('Process terminated.');
+  process.exit(0);
 });
-
-app.get('/docs', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'docs.html'));
-});
-
-// 404 handler
-app.use((req, res) => {
-  console.log(`404 Not Found: ${req.url}`);
-  res.status(404).sendFile(path.join(__dirname, 'web', '404.html'));
-});
-
-// 500 handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).sendFile(path.join(__dirname, 'web', '500.html'));
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(chalk.bgHex('#90EE90').hex('#333').bold(`Server is running on http://localhost:${PORT}`));
-});
-
-module.exports = app;

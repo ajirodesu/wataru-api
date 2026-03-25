@@ -2,7 +2,6 @@ const meta = {
   name: "example",
   version: "1.0.0",
   description: "A simple example API that demonstrates basic functionality",
-  author: "Your Name", 
   method: "get",
   category: "example",
   path: "/example?text="

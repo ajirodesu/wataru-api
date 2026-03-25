@@ -2,7 +2,6 @@ const meta = {
   name: "login",
   version: "1.0.0",
   description: "Login API endpoint",
-  author: "AjiroDesu", 
   method: "post",
   category: "example",
   path: "/login?username=&password=" // Removed query params since this is a POST endpoint and credentials should be in the body

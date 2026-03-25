@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Internal Server Error — 500">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <title>500 — Server Error</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *:focus { outline: none; -webkit-tap-highlight-color: transparent; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    ::selection { background: rgba(192,132,252,0.22); color: #e6e1e5; }
+
+    :root {
+      --md-bg:        #000000;
+      --md-surf-1:    #0d0d12;
+      --md-surf-2:    #13131c;
+      --md-surf-3:    #1a1a26;
+      --md-surf-var:  #161621;
+      --md-out:       #28283c;
+      --md-out-var:   #35354d;
+      --md-on-bg:     #e6e1e5;
+      --md-on-surf:   #cac4d0;
+      --md-on-surf-v: #79747e;
+      --md-on-surf-d: #49454f;
+      --md-pri:       #c084fc;
+      --md-pink:      #f472b6;
+      --md-pri-dim:   #a855f7;
+      --md-sec:       #f472b6;
+      --md-ter:       #4ade80;
+      --md-err:       #cf6679;
+      --md-war:       #ffb74d;
+      --md-pri-10:    rgba(192,132,252,0.10);
+      --md-pri-16:    rgba(192,132,252,0.16);
+      --md-pri-24:    rgba(192,132,252,0.24);
+      --grad-pp:      linear-gradient(135deg, #f472b6, #c084fc);
+      --md-shape-xs:  4px;
+      --md-shape-s:   8px;
+      --md-shape-m:   12px;
+      --md-shape-l:   16px;
+      --md-shape-xl:  24px;
+      --md-shape-full: 100px;
+      --fh: 'Google Sans', 'Roboto', sans-serif;
+      --fd: 'Google Sans Display', 'Google Sans', sans-serif;
+      --fm: 'Roboto Mono', monospace;
+      --md-dur-s:  100ms;
+      --md-dur-m:  200ms;
+      --md-dur-l:  300ms;
+      --md-dur-xl: 500ms;
+      --md-ease:   cubic-bezier(0.2, 0, 0, 1);
+      --md-ease-e: cubic-bezier(0.05, 0.7, 0.1, 1);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      background: var(--md-bg);
+      color: var(--md-on-bg);
+      font-family: var(--fh);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(200,200,200,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,200,200,0.08) 1px, transparent 1px);
+      background-size: 18px 18px;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(200,200,200,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,200,200,0.05) 1px, transparent 1px);
+      background-size: 90px 90px;
+      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 30%, transparent 100%);
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* ── BLOBS ── */
+    .blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(140px); }
+    .blob-1 {
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(207,102,121,0.10) 0%, transparent 65%);
+      top: -200px; right: -160px;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(192,132,252,0.07) 0%, transparent 65%);
+      bottom: -140px; left: -100px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+      height: 64px;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border-bottom: 1px solid var(--md-out);
+      box-shadow: 0 1px 0 var(--md-out), 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .hdr-inner {
+      height: 100%; max-width: 960px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--md-pri); box-shadow: 0 0 10px var(--md-pri);
+      animation: pip 2.4s ease-in-out infinite; flex-shrink: 0;
+    }
+    @keyframes pip { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.6)} }
+    .brand-name {
+      font-family: var(--fd); font-size: 15px; font-weight: 700;
+      color: var(--md-on-bg); letter-spacing: -0.01em;
+    }
+    .hdr-btn {
+      font-family: var(--fh); font-size: 13px; font-weight: 500;
+      color: var(--md-pri); text-decoration: none;
+      padding: 8px 18px;
+      border: 1px solid rgba(192,132,252,0.3);
+      border-radius: var(--md-shape-full);
+      background: var(--md-pri-10);
+      transition: background var(--md-dur-m), border-color var(--md-dur-m);
+    }
+    .hdr-btn:hover { background: var(--md-pri-16); border-color: rgba(192,132,252,0.5); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1; position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 96px 24px 80px;
+    }
+
+    /* ── ERROR CARD ── */
+    .err-wrap {
+      max-width: 520px; width: 100%;
+      text-align: center;
+      animation: rise 0.55s var(--md-ease-e) forwards;
+      opacity: 0; transform: translateY(28px);
+    }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    .err-code-wrap { position: relative; display: inline-block; margin-bottom: 8px; }
+    .err-code {
+      font-family: var(--fd);
+      font-size: clamp(96px, 20vw, 148px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #cf6679, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 48px rgba(207,102,121,0.3));
+      user-select: none;
+    }
+    .err-glow {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #cf6679, #c084fc);
+      filter: blur(60px);
+      opacity: 0.12;
+      pointer-events: none;
+      border-radius: 50%;
+      transform: scaleY(0.4) translateY(40%);
+    }
+
+    .err-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--fh); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--md-war);
+      background: rgba(255,183,77,0.10);
+      border: 1px solid rgba(255,183,77,0.22);
+      padding: 5px 14px; border-radius: var(--md-shape-full);
+      margin-bottom: 20px;
+    }
+    .err-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--md-war);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .err-title {
+      font-family: var(--fd);
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: var(--md-on-bg);
+      margin-bottom: 12px;
+    }
+    .err-desc {
+      font-family: var(--fh); font-size: 14px; line-height: 1.75;
+      color: var(--md-on-surf); max-width: 390px; margin: 0 auto 36px;
+    }
+
+    /* ── STATUS BOX ── */
+    .status-box {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--md-surf-1); border: 1px solid var(--md-out);
+      border-radius: var(--md-shape-m); padding: 12px 20px;
+      margin-bottom: 28px;
+    }
+    .status-icon { font-size: 14px; color: var(--md-war); }
+    .status-msg { font-family: var(--fm); font-size: 11px; color: var(--md-on-surf-v); letter-spacing: 0.04em; }
+
+    /* ── ACTIONS ── */
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--fh); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.01em; padding: 10px 24px;
+      border-radius: var(--md-shape-full); border: none;
+      text-decoration: none; cursor: pointer;
+      transition: box-shadow var(--md-dur-m) var(--md-ease), background var(--md-dur-m), opacity var(--md-dur-m), transform var(--md-dur-s);
+      white-space: nowrap;
+    }
+    .btn-fill {
+      background: var(--grad-pp);
+      color: #fff; font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .btn-fill:hover {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(192,132,252,0.3);
+      opacity: 0.92; transform: translateY(-1px);
+    }
+    .btn-fill:active { transform: translateY(0); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--md-out-var);
+      color: var(--md-on-surf);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.04); color: var(--md-on-bg); }
+
+    /* ── DECORATIVE DIVIDER ── */
+    .err-divider {
+      width: 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--md-err), transparent);
+      margin: 32px auto;
+      opacity: 0.4;
+    }
+
+    /* ── HELPFUL LINKS ── */
+    .quick-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .ql {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--fh); font-size: 12px;
+      color: var(--md-on-surf-v);
+      background: var(--md-surf-1); border: 1px solid var(--md-out);
+      padding: 7px 14px; border-radius: var(--md-shape-full);
+      text-decoration: none;
+      transition: color var(--md-dur-m), border-color var(--md-dur-m), background var(--md-dur-m);
+    }
+    .ql:hover { color: var(--md-pri); border-color: rgba(192,132,252,0.3); background: var(--md-pri-10); }
+    .ql i { font-size: 11px; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--md-out);
+      background: rgba(0,0,0,0.7);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .ftr-copy { font-family: var(--fh); font-size: 11px; color: var(--md-on-surf-d); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--md-out-var); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--md-on-surf-d); }
+    @media (max-width: 767px) { ::-webkit-scrollbar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <header>
+    <div class="hdr-inner">
+      <a href="/" class="hdr-brand">
+        <div class="brand-pip"></div>
+        <span class="brand-name">API Dashboard</span>
+      </a>
+      <a href="/" class="hdr-btn">← Home</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="err-wrap">
+
+      <div class="err-code-wrap">
+        <div class="err-glow"></div>
+        <div class="err-code">500</div>
+      </div>
+
+      <div class="err-badge">
+        <span class="err-badge-dot"></span>
+        Internal Server Error
+      </div>
+
+      <h1 class="err-title">Something went wrong on our end</h1>
+      <p class="err-desc">
+        An unexpected error occurred while processing your request.
+        Our team has been notified. Please try again in a moment or return to the homepage.
+      </p>
+
+      <div class="status-box">
+        <i class="fas fa-exclamation-triangle status-icon"></i>
+        <span class="status-msg">HTTP 500 · INTERNAL SERVER ERROR</span>
+      </div>
+
+      <div class="btns">
+        <a href="/" class="btn btn-fill">
+          <i class="fas fa-home" style="font-size:11px;"></i>Return to Homepage
+        </a>
+        <a href="javascript:location.reload()" class="btn btn-outline">
+          <i class="fas fa-redo" style="font-size:11px;"></i>Try Again
+        </a>
+      </div>
+
+      <div class="err-divider"></div>
+
+      <div class="quick-links">
+        <a href="/" class="ql"><i class="fas fa-home"></i>Home</a>
+        <a href="/docs" class="ql"><i class="fas fa-terminal"></i>Documentation</a>
+        <a href="/api/info" class="ql"><i class="fas fa-info-circle"></i>API Info</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <span class="ftr-copy" id="ftrCopy"></span>
+  </footer>
+
+  <script>
+    document.getElementById('ftrCopy').textContent =
+      `© ${new Date().getFullYear()} API Dashboard. All rights reserved.`;
+  </script>
+</body>
+</html>
