@@ -347,8 +347,9 @@
   /* Modal Header */
   .mhdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;}
   .mhdr-info{flex:1;min-width:0;}
-  .mh-name{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--txt-1);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em;}
+  .mh-name{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--txt-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em;}
   .mh-desc{font-family:var(--fh);font-size:11px;color:var(--txt-3);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .m-title-line{display:flex;align-items:center;gap:6px;margin-bottom:2px;}
   .mh-x{width:32px;height:32px;flex-shrink:0;border-radius:var(--r-full);border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt-3);font-size:13px;transition:background var(--dur-m),color var(--dur-m);}
   .mh-x:hover{background:rgba(255,69,58,.1);color:var(--red);}
 
@@ -817,7 +818,10 @@
     <!-- Modal Header -->
     <div class="mhdr">
       <div class="mhdr-info">
-        <div class="mh-name" id="m-name">API Name</div>
+        <div class="m-title-line">
+          <div class="mh-name" id="m-name">API Name</div>
+          <span class="ep-badge" id="ep-badge">GET</span>
+        </div>
         <div class="mh-desc" id="m-desc">Description</div>
       </div>
       <button class="mh-x" id="m-close"><i class="fas fa-xmark"></i></button>
@@ -829,7 +833,6 @@
       <!-- Endpoint block -->
       <div class="ep-block">
         <div class="ep-top">
-          <span class="ep-badge" id="ep-badge">GET</span>
           <span class="ep-url-txt" id="ep-url-txt"></span>
           <div class="ep-acts">
             <button class="epbtn" id="ep-copy"><i class="fas fa-copy"></i>&nbsp;Copy</button>
