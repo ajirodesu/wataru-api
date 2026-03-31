@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08080F">
+  <title>404 — Not Found</title>
+  <link rel="icon" href="/image/icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg:     #07070F;
+      --surf-0: #0D0D1A;
+      --surf-1: #121220;
+      --surf-2: #181828;
+      --surf-3: #1E1E2E;
+      --surf-4: #242436;
+      --border:    rgba(168,85,247,.10);
+      --border-md: rgba(168,85,247,.20);
+      --border-hi: rgba(168,85,247,.40);
+      --txt-1: #F2F2F7;
+      --txt-2: #AEAEB8;
+      --txt-3: #636372;
+      --txt-4: #3A3A4A;
+      --purple:        #A855F7;
+      --purple-light:  #C084FC;
+      --purple-bright: #D8B4FE;
+      --purple-dark:   #7C3AED;
+      --purple-10:  rgba(168,85,247,.10);
+      --purple-20:  rgba(168,85,247,.20);
+      --r-s:   10px;
+      --r-m:   14px;
+      --r-l:   18px;
+      --r-xl:  22px;
+      --r-full:9999px;
+      --shadow-m: 0 4px 24px rgba(0,0,0,.5);
+      --glow: 0 0 24px rgba(168,85,247,.25);
+      --dur-m: 250ms;
+      --dur-l: 380ms;
+      --ease:  cubic-bezier(.2,0,0,1);
+      --eout:  cubic-bezier(.16,1,.3,1);
+      --HH:  56px;
+      --fh: 'Outfit',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+      --fd: 'Outfit',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+      --fm: 'JetBrains Mono','SF Mono','Menlo',monospace;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    *:focus{outline:none;}
+    a,button{-webkit-tap-highlight-color:transparent;}
+    ::selection{background:var(--purple-20);color:var(--txt-1);}
+    html{scroll-behavior:smooth;}
+    body{
+      background:var(--bg);color:var(--txt-1);
+      font-family:var(--fh);font-size:14px;line-height:1.6;
+      min-height:100vh;display:flex;flex-direction:column;
+      -webkit-font-smoothing:antialiased;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:
+        radial-gradient(ellipse 70% 55% at -5% -5%,rgba(168,85,247,.13) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 45% at 105% 105%,rgba(124,58,237,.09) 0%,transparent 60%);
+    }
+    #hdr{
+      position:fixed;top:0;left:0;right:0;z-index:600;height:var(--HH);
+      background:rgba(7,7,15,.92);backdrop-filter:blur(32px) saturate(200%);
+      border-bottom:1px solid var(--border);
+    }
+    .hdr-inner{
+      height:100%;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .hdr-mid{
+      font-family:var(--fd);font-size:17px;font-weight:600;color:var(--txt-1);flex:1;text-align:center;letter-spacing:-.02em;
+    }
+    .hico{
+      width:40px;height:40px;border-radius:var(--r-full);border:none;background:transparent;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt-3);font-size:16px;
+      transition:background var(--dur-m),color var(--dur-m);
+    }
+    .hico:hover{background:var(--purple-10);color:var(--txt-1);}
+    main{
+      position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;
+      padding:calc(var(--HH) + 40px) 20px 80px;
+    }
+    .err-card{
+      width:100%;max-width:460px;
+      background:var(--surf-1);border:1px solid var(--border);
+      border-radius:var(--r-xl);overflow:hidden;
+      box-shadow:var(--shadow-m),var(--glow);
+      opacity:0;transform:translateY(20px);
+      animation:rise .45s var(--eout) .08s forwards;
+    }
+    @keyframes rise{to{opacity:1;transform:translateY(0);}}
+    .err-top{
+      padding:44px 32px 32px;text-align:center;border-bottom:1px solid var(--border);
+    }
+    .err-code-wrap{position:relative;margin-bottom:24px;}
+    .err-code{
+      font-family:var(--fd);font-weight:700;font-size:clamp(82px,19vw,118px);
+      letter-spacing:-0.05em;line-height:1;color:var(--surf-3);
+    }
+    .err-code-num{
+      font-family:var(--fd);font-weight:700;font-size:clamp(82px,19vw,118px);
+      letter-spacing:-0.05em;line-height:1;
+      background:linear-gradient(135deg,#D8B4FE,#A855F7,#7C3AED);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 32px rgba(168,85,247,.4));
+    }
+    .err-icon{
+      width:56px;height:56px;border-radius:var(--r-l);
+      background:var(--purple-10);border:1px solid var(--border-md);
+      display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--purple);
+      margin:0 auto 20px;
+    }
+    .err-title{font-family:var(--fd);font-size:24px;font-weight:600;color:var(--txt-1);margin-bottom:8px;}
+    .err-msg{font-size:14px;color:var(--txt-2);line-height:1.65;max-width:320px;margin:0 auto 24px;}
+    .err-path-row{
+      display:flex;align-items:center;gap:12px;
+      background:var(--surf-2);border:1px solid var(--border);
+      border-radius:var(--r-m);padding:12px 16px;
+    }
+    .err-path-txt{
+      font-family:var(--fm);font-size:12.5px;color:var(--txt-2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .err-badge{
+      font-family:var(--fm);font-size:9px;font-weight:700;padding:4px 10px;border-radius:var(--r-xs);
+      background:var(--purple-10);color:var(--purple);border:1px solid var(--border-md);letter-spacing:.06em;
+    }
+    .err-actions{padding:24px 28px 28px;display:flex;flex-direction:column;gap:12px;}
+    .btn-primary{
+      width:100%;padding:14px;border-radius:var(--r-full);
+      background:linear-gradient(135deg,var(--purple-dark),var(--purple));
+      color:#fff;font-family:var(--fh);font-size:15px;font-weight:600;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      box-shadow:0 2px 12px rgba(168,85,247,.35);transition:all var(--dur-m);
+    }
+    .btn-primary:hover{opacity:.9;box-shadow:0 4px 20px rgba(168,85,247,.5);transform:translateY(-1px);}
+    .err-sec-row{display:flex;gap:8px;}
+    .btn-sec{
+      flex:1;padding:11px 14px;border-radius:var(--r-full);background:transparent;border:1px solid var(--border);
+      font-family:var(--fh);font-size:13px;font-weight:500;color:var(--txt-2);
+      display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all var(--dur-m);
+    }
+    .btn-sec:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-10);}
+    .err-strip{
+      padding:16px 24px;background:var(--surf-2);border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--txt-3);
+    }
+    .err-strip-dot{width:7px;height:7px;border-radius:50%;background:#30D158;animation:pip 2.4s ease-in-out infinite;}
+    @keyframes pip{0%,100%{opacity:1}50%{opacity:.3}}
+    .err-footer{
+      text-align:center;padding:24px 20px;font-family:var(--fh);font-size:12.5px;color:var(--txt-4);
+    }
+    .err-footer a{color:var(--txt-3);text-decoration:none;}
+    .err-footer a:hover{color:var(--purple);}
+    #toast{
+      position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);
+      background:var(--surf-3);border:1px solid var(--border);border-radius:var(--r-l);
+      padding:10px 20px;font-family:var(--fh);font-size:13px;color:var(--txt-1);
+      box-shadow:0 4px 20px rgba(0,0,0,.4),0 0 0 1px var(--border);
+      z-index:9999;opacity:0;transition:all var(--dur-m);pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:8px;
+    }
+    #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+  </style>
+</head>
+<body>
+  <header id="hdr">
+    <div class="hdr-inner">
+      <a class="hico" href="/" aria-label="Home"><i class="fas fa-arrow-left"></i></a>
+      <div class="hdr-mid">404 — Not Found</div>
+      <a class="hico" href="/docs" aria-label="Docs"><i class="fas fa-book"></i></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="err-card">
+      <div class="err-top">
+        <div class="err-code-wrap">
+          <div class="err-code" aria-hidden="true">404</div>
+          <div class="err-code-num">404</div>
+        </div>
+        <div class="err-icon"><i class="fas fa-link-slash"></i></div>
+        <div class="err-title">Page Not Found</div>
+        <div class="err-msg">The endpoint you're looking for doesn't exist, has been moved, or the URL was mistyped.</div>
+        <div class="err-path-row">
+          <i class="fas fa-terminal" style="color:var(--txt-4);font-size:13px;"></i>
+          <span class="err-path-txt" id="err-path">/unknown/path</span>
+          <span class="err-badge">404</span>
+        </div>
+      </div>
+
+      <div class="err-actions">
+        <a href="/" class="btn-primary"><i class="fas fa-house"></i>Back to Home</a>
+        <div class="err-sec-row">
+          <a href="/docs" class="btn-sec"><i class="fas fa-book"></i>Docs</a>
+          <button onclick="history.back()" class="btn-sec"><i class="fas fa-arrow-left"></i>Go Back</button>
+          <button id="copy-path-btn" class="btn-sec"><i class="fas fa-copy"></i>Copy URL</button>
+        </div>
+      </div>
+
+      <div class="err-strip">
+        <div><span class="err-strip-dot"></span> API server online</div>
+        <span style="font-family:var(--fm);background:var(--purple-10);color:var(--purple);padding:4px 10px;border-radius:6px;font-size:9px;font-weight:700;">HTTP 404</span>
+      </div>
+    </div>
+  </main>
+
+  <div class="err-footer">
+    If you think this is a mistake, check the <a href="/docs">API docs</a> or <a href="/">return home</a>.
+  </div>
+
+  <div id="toast"><i id="toast-ico" class="fas fa-check" style="font-size:11px;"></i><span id="toast-txt"></span></div>
+
+  <script>
+    const pathEl = document.getElementById('err-path');
+    pathEl.textContent = window.location.pathname + window.location.search || '/unknown/path';
+    pathEl.title = window.location.href;
+
+    document.getElementById('copy-path-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-txt').textContent = 'URL copied!';
+        toast.classList.add('on');
+        setTimeout(() => toast.classList.remove('on'), 2200);
+      });
+    });
+  </script>
+</body>
+</html>

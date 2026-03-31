@@ -1,0 +1,21 @@
+{
+  "name": "Wataru API",
+  "description": "Simple and Easy to use",
+  "key": "ajiro2005",
+  "header": {
+    "status": "Online!",
+    "imageSrc": [
+      "https://cdnb.artstation.com/p/assets/images/images/066/149/065/original/killer-rabbit-media-chinese-alleyway-export.gif?1692171513"
+    ],
+    "imageSize": {
+      "mobile": "80%",
+      "tablet": "40%",
+      "desktop": "40%"
+    }
+  },
+  "icon": "icon.png",
+  "operator": "AjiroDesu",
+  "telegram": "https://t.me/+AQO22J2q6KBlNWM1",
+  "messenger": "https://m.me/j/Aba0mwuz9PTv7bP9/",
+  "github": "https://github.com/ajirodesu"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "wataru-api",
+  "version": "2.0.0",
+  "description": "A simple and customizable API documentation interface made by AjiroDesu",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --no-deprecation index.js"
+  },
+  "author": "AjiroDesu",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.3",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "node-fetch": "^2.6.1"
+  }
+}
