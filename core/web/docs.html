@@ -400,7 +400,23 @@
   .pinp{width:100%;background:var(--surf-2);border:1px solid var(--border-md);border-radius:var(--r-s);padding:9px 12px;font-family:var(--fh);font-size:13px;color:var(--txt-1);transition:border-color var(--dur-m),box-shadow var(--dur-m);-webkit-appearance:none;appearance:none;}
   .pinp:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-10);}
   .pinp::placeholder{color:var(--txt-4);}
-  .jbody-ta{width:100%;background:var(--surf-2);border:1px solid var(--border-md);border-radius:var(--r-m);padding:14px 18px;font-family:var(--fm);font-size:13px;color:var(--txt-1);resize:vertical;min-height:200px;line-height:1.65;transition:border-color var(--dur-m),box-shadow var(--dur-m);overflow-x:auto;white-space:pre-wrap;word-break:break-all;}
+  .jbody-ta{
+   width:100%;
+   background:var(--surf-2);
+   border:1px solid var(--border-md);
+   border-radius:var(--r-m);
+   padding:14px 18px;
+   font-family:var(--fm);
+   font-size:13px;
+   color:var(--txt-1);
+   resize:none;                    /* ← This removes the white dot/grip */
+   min-height:220px;
+   line-height:1.65;
+   transition:border-color var(--dur-m),box-shadow var(--dur-m);
+   overflow-x:auto;
+   white-space:pre-wrap;
+   word-break:break-all;
+    }
   .jbody-ta:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-10);}
 
   /* Run button */
@@ -1515,6 +1531,7 @@ async function runRequest(api){
       document.getElementById('term-download-btn').style.display = 'flex';
 
     }else if(ct.startsWith('text/')){
+      /* TEXT RESPONSE → TERMINAL with FULL syntax coloring + proper spacing (exactly like JSON) */
       const text=await resp.text();
 
       document.getElementById('res-topbar').style.display='none';
@@ -1538,7 +1555,7 @@ async function runRequest(api){
       const mediaOut=document.getElementById('term-media-output');
       jsonOut.style.display='block';
       mediaOut.style.display='none';
-      jsonOut.innerHTML = syntaxHighlight(text);
+      jsonOut.innerHTML = syntaxHighlight(text);   /* ← colored + spaced exactly like JSON */
 
     }else{
       const blob=await resp.blob();
