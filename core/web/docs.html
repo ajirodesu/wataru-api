@@ -787,10 +787,11 @@
             <span class="term-curl-text">response format</span>
           </div>
           <pre id="rf-json-output" class="json-output">{
-  <span class="json-key">"operator"</span>: <span class="json-string">"<span id="rf-op">AjiroDesu</span>"</span>,
-  <span class="json-key">"timestamp"</span>: <span class="json-string">"2026-03-29T12:25:00.000Z"</span>,
-  <span class="json-key">"responseTime"</span>: <span class="json-string">"4ms"</span>,
-  <span class="json-key">"results"</span>: <span class="json-null">// ... your data</span>
+  <span class="json-key">"operator"</span>: <span class="json-string">"<span id="rf-op">Created Using Rynn UI</span>"</span>,
+  <span class="json-key">"timestamp"</span>: <span class="json-string">"2026-04-01T16:04:00.000Z"</span>,
+  <span class="json-key">"responseTime"</span>: <span class="json-string">"12ms"</span>,
+  <span class="json-key">"yourOriginalKey"</span>: <span class="json-string">"yourOriginalValue"</span>,
+  ...
 }</pre>
         </div>
       </div>
@@ -1215,7 +1216,7 @@ function renderNotifs(list){
 
 document.getElementById('np-mar-btn').addEventListener('click',()=>{ _notifData.forEach((_,i)=>{if(!_dismissedSet.has(i))_readSet.add(i);}); _npSave();_renderNpItems();});
 
-/* ── JSON SYNTAX HIGHLIGHT ── */
+/* ── JSON SYNTAX HIGHLIGHT (now also used for plain text responses) ── */
 function syntaxHighlight(json){
   if(typeof json!=='string')json=JSON.stringify(json,null,2);
   try{json=JSON.stringify(JSON.parse(json),null,2);}catch(_){}
@@ -1418,7 +1419,7 @@ document.addEventListener('click',e=>{
   }
 });
 
-/* ── RUN REQUEST — fully compatible with all example endpoints (ba.js image, animesearch, login POST, etc.) ── */
+/* ── RUN REQUEST — fully compatible with app.js wrapper + new text response styling ── */
 async function runRequest(api){
   const btn=document.getElementById('run-btn');
   const resWrap=document.getElementById('res-wrap');
@@ -1514,7 +1515,7 @@ async function runRequest(api){
       document.getElementById('term-download-btn').style.display = 'flex';
 
     }else if(ct.startsWith('text/')){
-      /* NORMAL TEXT RESPONSE → NOW IN TERMINAL (same UI as JSON + MEDIA) */
+      /* TEXT RESPONSE → TERMINAL with FULL syntax coloring + proper spacing (exactly like JSON) */
       const text=await resp.text();
 
       document.getElementById('res-topbar').style.display='none';
@@ -1538,7 +1539,7 @@ async function runRequest(api){
       const mediaOut=document.getElementById('term-media-output');
       jsonOut.style.display='block';
       mediaOut.style.display='none';
-      jsonOut.textContent = text;   /* plain text inside the same terminal pre */
+      jsonOut.innerHTML = syntaxHighlight(text);   /* ← colored + spaced exactly like JSON */
 
     }else{
       const blob=await resp.blob();
@@ -1599,7 +1600,7 @@ function pickExampleApi(){
 }
 document.getElementById('try-example-btn').addEventListener('click',()=>{if(_exampleApi)openModal(_exampleApi,'page');});
 
-/* ── BOOTSTRAP — 100% compatible with app.js, settings.json and every meta.js file ── */
+/* ── BOOTSTRAP — 100% compatible with app.js (new wrapper + request timing) ── */
 window.addEventListener('load',async()=>{
   const ldr=document.getElementById('ldr'),page=document.getElementById('page');
   try{
@@ -1621,7 +1622,7 @@ window.addEventListener('load',async()=>{
           desc: item.description || item.desc || '',
           path: item.path,
           methods: methods,
-          params: parseParamsFromPath(item.path)   /* meta.path → params + examples + descriptions */
+          params: parseParamsFromPath(item.path)
         };
       })
     }));
@@ -1629,7 +1630,7 @@ window.addEventListener('load',async()=>{
     baseOrigin = window.location.origin;
     siteUsername = (cfg.operator || 'api').toLowerCase().replace(/[^a-z0-9]/g,'') || 'api';
 
-    document.title=(cfg.name||'Wataru APIs')+' — Documentation';
+    document.title=(cfg.name||'Aqua APIs')+' — Documentation';
     document.getElementById('hdr-title').textContent=cfg.name||'Documentation';
     document.getElementById('favicon').href=cfg.icon||'/image/icon.png';
 
@@ -1642,8 +1643,8 @@ window.addEventListener('load',async()=>{
     styleTag.textContent=`.hero-gif{width:${sizes.mobile||'80%'}}@media(min-width:560px){.hero-gif{width:${sizes.tablet||'40%'}}}@media(min-width:900px){.hero-gif{width:${sizes.desktop||'40%'}}}`;
     document.head.appendChild(styleTag);
 
-    document.getElementById('heroName').textContent=cfg.name||'Wataru APIs';
-    document.getElementById('heroDesc').textContent=cfg.description||'Simple and Easy to use';
+    document.getElementById('heroName').textContent=cfg.name||'Aqua APIs';
+    document.getElementById('heroDesc').textContent=cfg.description||'Simple and easy to use';
     document.getElementById('heroStatus').textContent=cfg.header?.status||'Online!';
 
     const totalApis = ALL.reduce((acc, cat) => acc + cat.items.length, 0);
@@ -1663,7 +1664,7 @@ window.addEventListener('load',async()=>{
     if(rfCopyBtn){
       rfCopyBtn.addEventListener('click',()=>{
         const op = document.getElementById('rf-op').textContent || siteUsername;
-        copyText(`{"operator":"${op}","timestamp":"2026-03-29T12:25:00.000Z","responseTime":"4ms","results":...}`,'Format copied!');
+        copyText(`{"operator":"${op}","timestamp":"2026-04-01T16:04:00.000Z","responseTime":"12ms","yourOriginalKey":"yourOriginalValue",...}`,'Format copied!');
       });
     }
 

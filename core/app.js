@@ -34,6 +34,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+// ====================== REQUEST TIMING ======================
+// Required for the new responseTime field in the JSON wrapper
+app.use((req, res, next) => {
+  req.startTime = Date.now();
+  next();
+});
+
 // Load settings
 let settings;
 try {
@@ -42,10 +49,10 @@ try {
 } catch (err) {
   log.error(`❌ Failed to load settings.json: ${err.message}`);
   settings = {
-    name: 'Aqua APIs',
-    description: 'Simple and easy to use',
-    key: '',
-    operator: 'Created Using Rynn UI',
+    name: 'Wataru API',
+    description: 'Simple and Easy to use',
+    key: 'wataru69',
+    operator: 'AjiroDesu',
   };
 }
 
@@ -73,15 +80,26 @@ function saveNotifications() {
 loadNotifications();
 
 // ====================== JSON RESPONSE WRAPPER ======================
+// Updated with your requested middleware (timestamp + responseTime + operator)
+// Only wraps plain objects; arrays, primitives, null, and undefined are left untouched
 app.use((req, res, next) => {
   const originalJson = res.json;
   res.json = function (data) {
-    if (data && typeof data === 'object' && !Array.isArray(data)) {
-      return originalJson.call(this, {
+    const now = new Date();
+    const timestamp = now.toISOString();
+    const responseTime = `${Date.now() - req.startTime}ms`;
+
+    // Only wrap plain objects (arrays, primitives, null are left untouched)
+    if (data && typeof data === 'object' && !Array.isArray(data) && data !== null) {
+      const wrapped = {
+        operator: settings.operator || '',
+        timestamp,
+        responseTime,
         ...data,
-        creator: data.creator ?? settings.operator ?? 'Created Using Rynn UI',
-      });
+      };
+      return originalJson.call(this, wrapped);
     }
+
     return originalJson.call(this, data);
   };
   next();
