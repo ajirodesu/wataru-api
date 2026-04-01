@@ -7,26 +7,14 @@ const meta = {
 };
 
 async function onStart({ res, req }) {
-  // Extract the 'text' parameter from the query string
   const { text } = req.query;
+  if (!text) throw Object.assign(new Error('Text parameter is required'), { status: 400 });
 
-  if (!text) {
-    return res.status(400).json({ 
-      status: false, 
-      error: 'Text parameter is required' 
-    });
-  }
-
-  // Process the text (in this example, we'll just reverse it)
-  const reversed = text.split('').reverse().join('');
-
-  // Return a JSON response
-  return res.json({
+  res.json({
+    status: true,
     original: text,
-    reversed: reversed,
+    reversed: text.split('').reverse().join(''),
     length: text.length,
-    timestamp: new Date().toISOString(),
-    powered_by: "Wataru APIs"
   });
 }
 

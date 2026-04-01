@@ -80,27 +80,23 @@ function saveNotifications() {
 loadNotifications();
 
 // ====================== JSON RESPONSE WRAPPER ======================
-// Updated with your requested middleware (timestamp + responseTime + operator)
-// Only wraps plain objects; arrays, primitives, null, and undefined are left untouched
 app.use((req, res, next) => {
   const originalJson = res.json;
   res.json = function (data) {
-    const now = new Date();
-    const timestamp = now.toISOString();
+    const timestamp = new Date().toISOString();
     const responseTime = `${Date.now() - req.startTime}ms`;
+    const meta = { operator: settings.operator || '', timestamp, responseTime };
 
-    // Only wrap plain objects (arrays, primitives, null are left untouched)
-    if (data && typeof data === 'object' && !Array.isArray(data) && data !== null) {
-      const wrapped = {
-        operator: settings.operator || '',
-        timestamp,
-        responseTime,
-        ...data,
-      };
-      return originalJson.call(this, wrapped);
+    let payload;
+    if (Array.isArray(data)) {
+      payload = { status: true, result: data };
+    } else if (data && typeof data === 'object' && data !== null) {
+      payload = data;
+    } else {
+      return originalJson.call(this, data);
     }
 
-    return originalJson.call(this, data);
+    return originalJson.call(this, { ...meta, ...payload });
   };
   next();
 });
@@ -258,14 +254,19 @@ app.get('/', (req, res) => res.sendFile(path.join(WEB_DIR, 'gate.html')));
 app.get('/docs', (req, res) => res.sendFile(path.join(WEB_DIR, 'docs.html')));
 
 // ====================== ERROR HANDLERS ======================
-app.use((req, res) => {
-  log.warn(`404: ${req.url}`);
-  res.status(404).sendFile(path.join(ERR_DIR, '404.html'));
+app.use('/api', (err, req, res, next) => {
+  log.error(`API Error: ${err.message}`);
+  res.status(err.status || 500).json({ status: false, error: err.message });
 });
 
 app.use((err, req, res, next) => {
   log.error(`Server Error: ${err.stack}`);
   res.status(500).sendFile(path.join(ERR_DIR, '500.html'));
+});
+
+app.use((req, res) => {
+  log.warn(`404: ${req.url}`);
+  res.status(404).sendFile(path.join(ERR_DIR, '404.html'));
 });
 
 // ====================== START SERVER ======================
