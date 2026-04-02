@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const meta = {
-  name: "bluearchive",
+  name: "Blue Archive",
   version: "1.0.0",
   description: "Fetches a random Blue Archive image",
   author: "Rynn",

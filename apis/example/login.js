@@ -1,5 +1,5 @@
 const meta = {
-  name: "login",
+  name: "Login",
   description: "Validates user credentials",
   method: "post",
   category: "example",

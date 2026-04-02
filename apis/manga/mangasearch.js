@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const meta = {
-  name: "mangasearch",
+  name: "Manga Search",
   desc: "Searches for manga on MyAnimeList based on a query parameter",
   method: "get",
   category: "manga",

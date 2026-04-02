@@ -1,22 +1,29 @@
-modules = ["web", "nodejs-20", "nix"]
-run = "npm run start"
+entrypoint = "index.js"
+modules = ["web", "nodejs-20"]
+hidden = [".config", "package-lock.json"]
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["unzip"]
 
 [deployment]
-run = ["sh", "-c", "npm run start"]
+run = ["node", "index.js"]
+deploymentTarget = "autoscale"
+ignorePorts = false
+
+[agent]
+expertMode = true
 
 [[ports]]
-localPort = 4000
+localPort = 3000
 externalPort = 80
 
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[agent]
-expertMode = true
 
 [workflows]
 runButton = "Project"
@@ -36,7 +43,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run start"
+args = "PORT=5000 node index.js"
 waitForPort = 5000
 
 [workflows.workflow.metadata]

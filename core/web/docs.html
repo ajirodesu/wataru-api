@@ -258,6 +258,7 @@
   .np-item.read .np-dot{background:var(--txt-4);box-shadow:none;}
   .np-text{flex:1;min-width:0;}
   .np-ititle{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--txt-1);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  /* UPDATED: full long message support — removed line-clamp, now shows entire message with natural wrapping */
   .np-imsg{font-family:var(--fh);font-size:11px;color:var(--txt-2);line-height:1.5;white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;}
   .np-itime{font-size:10px;color:var(--txt-4);margin-top:4px;}
   .np-dismiss{flex-shrink:0;width:24px;height:24px;border-radius:var(--r-full);border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt-4);font-size:10px;transition:background var(--dur-m),color var(--dur-m);}
@@ -340,16 +341,15 @@
   /* ── MODAL ── */
   #mo{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity var(--dur-m) var(--ease),visibility var(--dur-m);}
   #mo.on{opacity:1;visibility:visible;}
-  #modal{width:100%;max-width:720px;height:660px;min-height:360px;background:var(--surf-1);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--border),0 8px 20px rgba(0,0,0,.4),0 32px 80px rgba(0,0,0,.6),0 0 60px rgba(168,85,247,.08);transform:translateY(16px) scale(.98);transition:transform var(--dur-l) var(--eout);}
+#modal{width:100%;max-width:720px;height:660px;min-height:360px;background:var(--surf-1);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--border),0 8px 20px rgba(0,0,0,.4),0 32px 80px rgba(0,0,0,.6),0 0 60px rgba(168,85,247,.08);transform:translateY(16px) scale(.98);transition:transform var(--dur-l) var(--eout);}
   #mo.on #modal{transform:translateY(0) scale(1);}
   @media(max-width:600px){#mo{padding:8px;}#modal{height:calc(100dvh - 16px);min-height:300px;}}
 
   /* Modal Header */
   .mhdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;}
   .mhdr-info{flex:1;min-width:0;}
-  .mh-name{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--txt-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em;}
+  .mh-name{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--txt-1);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em;}
   .mh-desc{font-family:var(--fh);font-size:11px;color:var(--txt-3);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .m-title-line{display:flex;align-items:center;gap:6px;margin-bottom:2px;}
   .mh-x{width:32px;height:32px;flex-shrink:0;border-radius:var(--r-full);border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt-3);font-size:13px;transition:background var(--dur-m),color var(--dur-m);}
   .mh-x:hover{background:rgba(255,69,58,.1);color:var(--red);}
 
@@ -401,21 +401,21 @@
   .pinp:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-10);}
   .pinp::placeholder{color:var(--txt-4);}
   .jbody-ta{
-   width:100%;
-   background:var(--surf-2);
-   border:1px solid var(--border-md);
-   border-radius:var(--r-m);
-   padding:14px 18px;
-   font-family:var(--fm);
-   font-size:13px;
-   color:var(--txt-1);
-   resize:none;                    /* ← This removes the white dot/grip */
-   min-height:220px;
-   line-height:1.65;
-   transition:border-color var(--dur-m),box-shadow var(--dur-m);
-   overflow-x:auto;
-   white-space:pre-wrap;
-   word-break:break-all;
+      width:100%;
+      background:var(--surf-2);
+      border:1px solid var(--border-md);
+      border-radius:var(--r-m);
+      padding:14px 18px;
+      font-family:var(--fm);
+      font-size:13px;
+      color:var(--txt-1);
+      resize:none;                    /* ← This removes the white dot/grip */
+      min-height:220px;
+      line-height:1.65;
+      transition:border-color var(--dur-m),box-shadow var(--dur-m);
+      overflow-x:auto;
+      white-space:pre-wrap;
+      word-break:break-all;
     }
   .jbody-ta:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-10);}
 
@@ -451,7 +451,7 @@
   .res-dl-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r-full);background:linear-gradient(135deg,var(--purple-dark),var(--purple));border:none;font-family:var(--fh);font-size:12px;color:#fff;cursor:pointer;text-decoration:none;transition:opacity var(--dur-m),box-shadow var(--dur-m);box-shadow:0 2px 10px rgba(168,85,247,.3);}
   .res-dl-btn:hover{opacity:.88;}
 
-  /* ── TERMINAL RESPONSE (JSON + MEDIA + TEXT) ── */
+  /* ── TERMINAL RESPONSE (JSON + MEDIA) ── */
   .terminal-window{
     background:var(--surf-0);
     border:1px solid var(--border-md);
@@ -618,7 +618,7 @@
   .json-bool  { color:#c084fc; font-style:italic; }
   .json-null  { color:#94a3b8; }
 
-  /* Media output inside terminal */
+  /* Media output inside terminal (NEW) */
   .terminal-media{
     padding:12px 0;
     display:flex;
@@ -777,6 +777,7 @@
 
   <!-- Response Format + Error Codes -->
   <div class="igrid">
+    <!-- UPDATED RESPONSE FORMAT: now uses exact same terminal style as API modal responses -->
     <div class="icard">
       <div class="ic-hd"><div class="ic-ico"><i class="fas fa-file-code"></i></div><div><div class="ic-title">Response Format</div><div class="ic-sub">Included in every response</div></div></div>
       <div class="terminal-window" id="rf-terminal-example">
@@ -803,11 +804,10 @@
             <span class="term-curl-text">response format</span>
           </div>
           <pre id="rf-json-output" class="json-output">{
-  <span class="json-key">"operator"</span>: <span class="json-string">"<span id="rf-op">Created Using Rynn UI</span>"</span>,
-  <span class="json-key">"timestamp"</span>: <span class="json-string">"2026-04-01T16:04:00.000Z"</span>,
-  <span class="json-key">"responseTime"</span>: <span class="json-string">"12ms"</span>,
-  <span class="json-key">"result"</span>: <span class="json-string">"API-Result-Here"</span>,
-  ...
+  <span class="json-key">"operator"</span>: <span class="json-string">"<span id="rf-op">AjiroDesu</span>"</span>,
+  <span class="json-key">"timestamp"</span>: <span class="json-string">"2026-03-29T12:25:00.000Z"</span>,
+  <span class="json-key">"responseTime"</span>: <span class="json-string">"4ms"</span>,
+  <span class="json-key">"results"</span>: <span class="json-null">// ... your data</span>
 }</pre>
         </div>
       </div>
@@ -832,24 +832,25 @@
 <div id="mo" role="dialog" aria-modal="true">
   <div id="modal">
 
-    <!-- Modal Header -->
-    <div class="mhdr">
-      <div class="mhdr-info">
-        <div class="m-title-line">
-          <div class="mh-name" id="m-name">API Name</div>
-          <span class="ep-badge" id="ep-badge">GET</span>
-        </div>
-        <div class="mh-desc" id="m-desc">Description</div>
-      </div>
-      <button class="mh-x" id="m-close"><i class="fas fa-xmark"></i></button>
+    <!-- API MODAL HEADER (updated) -->
+<div class="mhdr">
+  <div class="mhdr-info">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+      <div class="mh-name" id="m-name">API Name</div>
+      <span class="ep-badge" id="ep-badge">GET</span>
     </div>
+    <div class="mh-desc" id="m-desc">Description</div>
+  </div>
+  <button class="mh-x" id="m-close"><i class="fas fa-xmark"></i></button>
+</div>
 
     <!-- Modal Body -->
     <div class="mbody" id="mbody">
 
-      <!-- Endpoint block -->
+      <!-- Endpoint block — clean, no curl repetition -->
       <div class="ep-block">
         <div class="ep-top">
+          <!-- Method badge has been moved to the API name title above -->
           <span class="ep-url-txt" id="ep-url-txt"></span>
           <div class="ep-acts">
             <button class="epbtn" id="ep-copy"><i class="fas fa-copy"></i>&nbsp;Copy</button>
@@ -879,10 +880,12 @@
       <!-- Send button -->
       <button class="run-btn" id="run-btn"><i class="fas fa-play" style="font-size:11px;"></i>Send Request</button>
 
-      <!-- Response section -->
+      <!-- ── RESPONSE SECTION ── -->
       <div class="res-wrap" id="res-wrap" style="display:none;">
+        <!-- NEW: RESPONSE title (exactly like Method / Parameters) -->
         <div class="mlbl">Response</div>
 
+        <!-- Topbar: status + time — shown for non-JSON responses -->
         <div class="res-topbar" id="res-topbar">
           <div class="res-meta">
             <span class="res-status" id="res-status"></span>
@@ -892,22 +895,27 @@
           <button class="res-cp" id="res-copy"><i class="fas fa-copy"></i>&nbsp;Copy</button>
         </div>
 
+        <!-- Classic box: text / binary (media now uses terminal) -->
         <div class="res-classic-box" id="res-classic-box">
           <pre class="res-pre" id="res-pre"></pre>
         </div>
 
+        <!-- Terminal: JSON + MEDIA responses -->
         <div class="terminal-window" id="res-terminal" style="display:none;">
           <div class="terminal-header">
+            <!-- Traffic lights -->
             <div class="traffic-lights">
               <div class="tl tl-r"></div>
               <div class="tl tl-y"></div>
               <div class="tl tl-g"></div>
             </div>
+            <!-- CENTER: online indicator + status code + ping -->
             <div class="term-hdr-center">
               <div class="term-status-dot" id="term-dot"></div>
               <span class="term-status-code" id="term-status-code">200</span>
               <span class="term-ping" id="term-ping">0ms</span>
             </div>
+            <!-- Right header actions: download (media only) + copy -->
             <div class="term-header-right">
               <button class="term-download-btn" id="term-download-btn" title="Download media" style="display:none;">
                 <i class="fas fa-download"></i>
@@ -918,49 +926,52 @@
             </div>
           </div>
           <div class="terminal-content">
+            <!-- Prompt line: username ➜ ~ curl "..." -->
             <div class="term-prompt-line">
               <span class="term-username" id="term-username">api</span>
               <span class="term-arrow">➜</span>
               <span class="term-tilde">~</span>
               <span class="term-curl-text" id="term-curl-text">curl "…"</span>
             </div>
+            <!-- JSON output -->
             <pre id="term-json-output" class="json-output"></pre>
+            <!-- Media output (NEW) -->
             <div id="term-media-output" class="terminal-media" style="display:none;"></div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+      </div><!-- end res-wrap -->
+    </div><!-- end mbody -->
+  </div><!-- end modal -->
+</div><!-- end mo -->
 
 <div id="toast"><i id="toast-ico" class="fas fa-check" style="font-size:11px;"></i><span id="toast-txt"></span></div>
 
 <script>
 /* ═══════════════════════════════════════════
-   DYNAMIC ICON ENGINE — Accurate per meta.category
+   DYNAMIC ICON ENGINE
 ═══════════════════════════════════════════ */
 const ICONIFY_API='https://api.iconify.design';
 const ICON_MAP=[
-  {k:['anime','tv','animation','cartoon'],i:'lucide:tv'},
+  {k:['downloader','download','ytdl','tiktok','video dl','media download'],i:'lucide:download'}, {k:['anime','tv','animation','cartoon'],i:'lucide:tv'},
   {k:['manga','comic','book','manhwa'],i:'lucide:book'},
-  {k:['downloader','download','ytdl','tiktok','video dl','media download'],i:'lucide:download'},
-  {k:['weather','forecast','climate'],i:'lucide:cloud-sun'},
-  {k:['ai','artificial intelligence','machine learning','neural','gpt','llm'],i:'ph:robot-duotone'},
-  {k:['chatbot','chat','dialogue'],i:'lucide:message-circle'},
-  {k:['image generation','text to image'],i:'lucide:wand-2'},
+  {k:['weather','forecast','climate','atmospheric'],i:'lucide:cloud-sun'},
+  {k:['ai','artificial intelligence','machine learning','neural','gpt','llm','generative'],i:'ph:robot-duotone'},
+  {k:['chatbot','conversational','chat','dialogue'],i:'lucide:message-circle'},
+  {k:['image generation','text to image','stable diffusion'],i:'lucide:wand-2'},
   {k:['music','song','track','album','lyrics','spotify'],i:'lucide:music'},
   {k:['movie','film','cinema','imdb','tmdb'],i:'lucide:film'},
-  {k:['news','headline','article'],i:'lucide:newspaper'},
+  {k:['news','headline','article','journalism','press'],i:'lucide:newspaper'},
   {k:['cryptocurrency','blockchain','bitcoin','crypto'],i:'lucide:coins'},
   {k:['stock','equity','market','trading'],i:'lucide:trending-up'},
-  {k:['sports','sport','football','basketball'],i:'lucide:trophy'},
+  {k:['sports','sport','football','basketball','league'],i:'lucide:trophy'},
   {k:['canvas','image','photo','picture','art'],i:'lucide:image'},
   {k:['translation','translate','language'],i:'lucide:languages'},
   {k:['joke','humor','meme','funny'],i:'lucide:laugh'},
-  {k:['food','recipe','cooking'],i:'lucide:utensils'},
-  {k:['user','profile','account'],i:'lucide:user'},
+  {k:['food','recipe','cooking','cuisine'],i:'lucide:utensils'},
+  {k:['user','profile','account','member'],i:'lucide:user'},
   {k:['search','algolia'],i:'lucide:search'},
-  {k:['random','generator','dummy'],i:'lucide:shuffle'},
+  {k:['random','generator','dummy','lorem'],i:'lucide:shuffle'},
   {k:['email','mail'],i:'lucide:mail'},
   {k:['analytics','statistics','metrics'],i:'lucide:chart-line'},
   {k:['utility','helper','tools','misc'],i:'lucide:wrench'},
@@ -983,10 +994,15 @@ async function fetchIconSvg(iconId,color='currentColor'){
   if(_pending.has(cacheKey))return _pending.get(cacheKey);
   const[prefix,name]=iconId.includes(':')?iconId.split(':'):['lucide',iconId];
   const url=`${ICONIFY_API}/${prefix}/${name}.svg?color=${encodeURIComponent(color)}&width=14&height=14`;
-  const promise=fetch(url,{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error;return r.text();}).then(svg=>{
+  const promise=fetch(url,{cache:'force-cache'}).then(r=>{
+    if(!r.ok)throw new Error;return r.text();
+  }).then(svg=>{
     const clean=svg.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/on\w+="[^"]*"/g,'');
     _svgCache.set(cacheKey,clean);_pending.delete(cacheKey);return clean;
-  }).catch(()=>{const fb=`<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>`;_svgCache.set(cacheKey,fb);_pending.delete(cacheKey);return fb;});
+  }).catch(()=>{
+    const fb=`<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>`;
+    _svgCache.set(cacheKey,fb);_pending.delete(cacheKey);return fb;
+  });
   _pending.set(cacheKey,promise);return promise;
 }
 function getCategoryColor(name){
@@ -1014,7 +1030,7 @@ async function renderDynIcon(wrap,catName,color){
 let ALL=[], currentApi=null, activeMethod='GET', baseOrigin='';
 let modalSource=null, sbScrollTop=0, currentBlobUrl=null;
 let _notifData=[], _readSet=new Set(), _dismissedSet=new Set();
-let siteUsername='api';
+let siteUsername='api';                    // ← will be set to operator name (lowercase)
 let currentCurlText='';
 let currentResponseUrl='';
 let lastNotifJSON = '';
@@ -1024,6 +1040,7 @@ const NP_KEY_READ='np_read', NP_KEY_DISMISSED='np_dismissed';
 function _npSave(){try{localStorage.setItem(NP_KEY_READ,JSON.stringify([..._readSet]));localStorage.setItem(NP_KEY_DISMISSED,JSON.stringify([..._dismissedSet]));}catch(_){}}
 function _npLoad(){try{const r=localStorage.getItem(NP_KEY_READ),d=localStorage.getItem(NP_KEY_DISMISSED);if(r)JSON.parse(r).forEach(i=>_readSet.add(i));if(d)JSON.parse(d).forEach(i=>_dismissedSet.add(i));}catch(_){}}
 
+/* ── NEW: FORMATTED TIME + DATE (DD/MM/YYYY HH:MM) ── */
 function formatNotificationTime(ts) {
   if (!ts) return '';
   const d = new Date(ts);
@@ -1061,25 +1078,6 @@ function lockPage(){if(_lockCount===0){const sbW=window.innerWidth-document.docu
 function unlockPage(){_lockCount=Math.max(0,_lockCount-1);if(_lockCount===0){document.documentElement.classList.remove('sb-lock');document.documentElement.style.removeProperty('--sb-w');}}
 function freezeList(){sbList.classList.add('frozen');}
 function thawList(){sbList.classList.remove('frozen');}
-
-/* ── PARSE meta.path → UI params (exact requirement) ── */
-function parseParamsFromPath(pathStr) {
-  if (typeof pathStr !== 'string' || !pathStr.includes('?')) return [];
-  const queryPart = pathStr.split('?')[1];
-  if (!queryPart) return [];
-  return queryPart.split('&').map(part => {
-    const [rawName, rawExample] = part.split('=');
-    const name = (rawName || '').trim();
-    if (!name) return null;
-    const example = rawExample !== undefined ? decodeURIComponent(rawExample) : '';
-    return {
-      name: name,
-      example: example,
-      required: true,
-      desc: `Input your ${name} here`
-    };
-  }).filter(Boolean);
-}
 
 /* ── LEFT SIDEBAR ── */
 const sbEl=document.getElementById('sb'),sboEl=document.getElementById('sbo'),
@@ -1166,7 +1164,17 @@ function closeNotifPanel(){
   notifBtn.classList.remove('active');
   unlockPage();
 }
-notifBtn.addEventListener('click',e=>{e.stopPropagation();if(npOpen){closeNotifPanel();}else{npOpen=true;document.getElementById('np').classList.add('on');rboEl.classList.add('on');notifBtn.classList.add('active');lockPage();}});
+notifBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(npOpen){closeNotifPanel();}
+  else{
+    npOpen=true;
+    document.getElementById('np').classList.add('on');
+    rboEl.classList.add('on');
+    notifBtn.classList.add('active');
+    lockPage();
+  }
+});
 rboEl.addEventListener('click',closeNotifPanel);
 document.getElementById('np-close-btn').addEventListener('click',closeNotifPanel);
 
@@ -1230,22 +1238,30 @@ function renderNotifs(list){
   _readSet.clear();_dismissedSet.clear();_npLoad();_renderNpItems();
 }
 
-document.getElementById('np-mar-btn').addEventListener('click',()=>{ _notifData.forEach((_,i)=>{if(!_dismissedSet.has(i))_readSet.add(i);}); _npSave();_renderNpItems();});
+document.getElementById('np-mar-btn').addEventListener('click',()=>{
+  _notifData.forEach((_,i)=>{if(!_dismissedSet.has(i))_readSet.add(i);});
+  _npSave();_renderNpItems();
+});
 
-/* ── JSON SYNTAX HIGHLIGHT (now also used for plain text responses) ── */
+/* ── JSON SYNTAX HIGHLIGHT ── */
 function syntaxHighlight(json){
   if(typeof json!=='string')json=JSON.stringify(json,null,2);
   try{json=JSON.stringify(JSON.parse(json),null,2);}catch(_){}
-  return json.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  return json
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,match=>{
-      if(/^"/.test(match)) return /:$/.test(match) ? `<span class="json-key">${match}</span>` : `<span class="json-string">${match}</span>`;
+      if(/^"/.test(match)){
+        return/:$/.test(match)
+          ?`<span class="json-key">${match}</span>`
+          :`<span class="json-string">${match}</span>`;
+      }
       if(/true|false/.test(match))return`<span class="json-bool">${match}</span>`;
       if(/null/.test(match))return`<span class="json-null">${match}</span>`;
       return`<span class="json-number">${match}</span>`;
     });
 }
 
-/* ── BUILD CURL ── */
+/* ── BUILD CURL STRING ── */
 function buildCurl(url,method,body=null){
   if(method==='POST'||method==='PUT'){
     const b=body?JSON.stringify(body):'{}';
@@ -1255,16 +1271,17 @@ function buildCurl(url,method,body=null){
   return`curl "${url}"`;
 }
 
-/* ── GET QUERY URL — if input empty use example from meta.path ── */
+/* ── GET QUERY URL ── */
+/* UPDATED: uses meta.path parsing from backend + example value fallback */
 function getQueryUrl(api){
   const base=baseOrigin+api.path.split('?')[0];
   const params=(api.params||[]).map(p=>{
     const el=document.getElementById('pi_'+p.name);
-    let v=el?el.value.trim():'';
-    if(!v && p.example) v=p.example;
-    return v?`${encodeURIComponent(p.name)}=${encodeURIComponent(v)}`:null;
-  }).filter(Boolean);
-  return params.length?base+'?'+params.join('&'):base;
+    let v = el ? el.value.trim() : '';
+    if (!v) v = p.example ?? '';
+    return `${encodeURIComponent(p.name)}=${encodeURIComponent(v)}`;
+  });
+  return params.length ? base + '?' + params.join('&') : base;
 }
 
 /* ── UPDATE ENDPOINT DISPLAY ── */
@@ -1371,7 +1388,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-/* ── RENDER METHOD VIEW — params from meta.path ── */
+/* ── RENDER METHOD VIEW ── */
 function renderMethodView(api){
   const params=api.params||[];
   const paramsSec=document.getElementById('params-sec');
@@ -1400,7 +1417,10 @@ function renderMethodView(api){
             ${p.required?'<span class="preq">required</span>':'<span class="popt">optional</span>'}
           </div>
           ${p.desc?`<div class="pdsc">${p.desc}</div>`:''}
-          <input class="pinp" type="text" id="pi_${p.name}" placeholder="${p.example||''}" autocomplete="off">
+          ${p.options&&p.options.length
+            ?`<select class="pinp" id="pi_${p.name}">${p.options.map(o=>`<option value="${o}"${o===(p.example||p.options[0])?' selected':''}>${o}</option>`).join('')}</select>`
+            :`<input class="pinp" type="text" id="pi_${p.name}" placeholder="${p.example||''}" autocomplete="off">`
+          }
         </div>`).join('');
       paramsWrap.querySelectorAll('.pinp').forEach(inp=>inp.addEventListener('input',()=>updateEpDisplay(api)));
     }else{
@@ -1409,18 +1429,20 @@ function renderMethodView(api){
   }
 }
 
-/* ── TERMINAL HEADER BUTTONS ── */
+/* ── TERMINAL HEADER BUTTONS (copy + download for media) ── */
 document.addEventListener('click',e=>{
   if(e.target.closest('#term-copy-btn')){
     const curl=document.getElementById('term-curl-text').textContent||'';
     const jsonOut=document.getElementById('term-json-output');
     const mediaOut=document.getElementById('term-media-output');
+
     if(jsonOut.style.display!=='none'){
       copyText(`${curl}\n\n${jsonOut.textContent||''}`,'Response copied!');
     }else{
       copyText(curl,'Curl copied!');
     }
   }
+
   if(e.target.closest('#term-download-btn')){
     if(currentBlobUrl){
       const a=document.createElement('a');
@@ -1435,7 +1457,7 @@ document.addEventListener('click',e=>{
   }
 });
 
-/* ── RUN REQUEST — fully compatible with app.js wrapper + new text response styling ── */
+/* ── RUN REQUEST (MEDIA NOW USES TERMINAL + HEADER DOWNLOAD) ── */
 async function runRequest(api){
   const btn=document.getElementById('run-btn');
   const resWrap=document.getElementById('res-wrap');
@@ -1452,6 +1474,7 @@ async function runRequest(api){
   revokeBlobUrl();
 
   const t0=Date.now();
+
   let actualUrl = (activeMethod==='GET') ? getQueryUrl(api) : cleanUrl;
   currentResponseUrl = actualUrl;
 
@@ -1469,8 +1492,10 @@ async function runRequest(api){
     const elapsed=Date.now()-t0;
     const ct=(resp.headers.get('content-type')||'').toLowerCase();
 
+    /* ── JSON → TERMINAL ── */
     if(ct.includes('application/json')){
       const rawText=await resp.text();
+
       document.getElementById('res-topbar').style.display='none';
       document.getElementById('res-classic-box').style.display='none';
       const termEl=document.getElementById('res-terminal');
@@ -1484,7 +1509,7 @@ async function runRequest(api){
       const dot=document.getElementById('term-dot');
       dot.className='term-status-dot'+(resp.ok?' ok':' err');
 
-      document.getElementById('term-username').textContent=siteUsername;
+      document.getElementById('term-username').textContent=siteUsername;   // ← now uses operator name (lowercase)
       const curlDisplay=currentCurlText||`curl "${cleanUrl}"`;
       document.getElementById('term-curl-text').textContent=curlDisplay.replace(/\s*\\\n\s*/g,' ');
 
@@ -1495,6 +1520,7 @@ async function runRequest(api){
       const tokens=output.querySelectorAll('span');
       tokens.forEach((token,idx)=>{token.style.animationDelay=`${Math.min(idx*10,600)}ms`;token.classList.add('tok-anim');});
 
+    /* ── MEDIA (image/video/audio) → TERMINAL (header download only) ── */
     }else if(ct.startsWith('image/') || ct.startsWith('video/') || ct.startsWith('audio/')){
       const blob=await resp.blob();
       currentBlobUrl=URL.createObjectURL(blob);
@@ -1512,7 +1538,7 @@ async function runRequest(api){
       const dot=document.getElementById('term-dot');
       dot.className='term-status-dot'+(resp.ok?' ok':' err');
 
-      document.getElementById('term-username').textContent=siteUsername;
+      document.getElementById('term-username').textContent=siteUsername;   // ← now uses operator name (lowercase)
       const curlDisplay=currentCurlText||`curl "${cleanUrl}"`;
       document.getElementById('term-curl-text').textContent=curlDisplay.replace(/\s*\\\n\s*/g,' ');
 
@@ -1523,40 +1549,37 @@ async function runRequest(api){
       mediaOut.innerHTML='';
 
       let mediaEl;
-      if(ct.startsWith('image/')){mediaEl=document.createElement('img');mediaEl.src=currentBlobUrl;mediaEl.alt='Response image';}
-      else if(ct.startsWith('video/')){mediaEl=document.createElement('video');mediaEl.src=currentBlobUrl;mediaEl.controls=true;}
-      else if(ct.startsWith('audio/')){mediaEl=document.createElement('audio');mediaEl.src=currentBlobUrl;mediaEl.controls=true;}
+      if(ct.startsWith('image/')){
+        mediaEl=document.createElement('img');
+        mediaEl.src=currentBlobUrl;
+        mediaEl.alt='Response image';
+      }else if(ct.startsWith('video/')){
+        mediaEl=document.createElement('video');
+        mediaEl.src=currentBlobUrl;
+        mediaEl.controls=true;
+      }else if(ct.startsWith('audio/')){
+        mediaEl=document.createElement('audio');
+        mediaEl.src=currentBlobUrl;
+        mediaEl.controls=true;
+      }
       mediaOut.appendChild(mediaEl);
+
       mediaOut.dataset.ct = ct;
       document.getElementById('term-download-btn').style.display = 'flex';
 
+    /* ── TEXT / BINARY → classic box (unchanged) ── */
     }else if(ct.startsWith('text/')){
-      /* TEXT RESPONSE → TERMINAL with FULL syntax coloring + proper spacing (exactly like JSON) */
       const text=await resp.text();
-
-      document.getElementById('res-topbar').style.display='none';
-      document.getElementById('res-classic-box').style.display='none';
-      const termEl=document.getElementById('res-terminal');
-      termEl.style.display='block';
-
-      const code=resp.status;
-      document.getElementById('term-status-code').textContent=String(code);
-      document.getElementById('term-status-code').style.color=statusColorVar(code);
-      document.getElementById('term-ping').textContent=elapsed+'ms';
-
-      const dot=document.getElementById('term-dot');
-      dot.className='term-status-dot'+(resp.ok?' ok':' err');
-
-      document.getElementById('term-username').textContent=siteUsername;
-      const curlDisplay=currentCurlText||`curl "${cleanUrl}"`;
-      document.getElementById('term-curl-text').textContent=curlDisplay.replace(/\s*\\\n\s*/g,' ');
-
-      const jsonOut=document.getElementById('term-json-output');
-      const mediaOut=document.getElementById('term-media-output');
-      jsonOut.style.display='block';
-      mediaOut.style.display='none';
-      jsonOut.innerHTML = syntaxHighlight(text);   /* ← colored + spaced exactly like JSON */
-
+      document.getElementById('res-topbar').style.display='flex';
+      document.getElementById('res-classic-box').style.display='block';
+      document.getElementById('res-terminal').style.display='none';
+      document.getElementById('res-status').textContent=resp.status+' '+(resp.ok?'OK':'Error');
+      document.getElementById('res-status').className='res-status '+(resp.ok?'rok':'rerr');
+      document.getElementById('res-time').textContent=elapsed+'ms';
+      document.getElementById('res-type').textContent='Text';
+      document.getElementById('res-copy').onclick=()=>copyText(text,'Text copied!');
+      document.getElementById('res-pre').className='res-pre';
+      document.getElementById('res-pre').textContent=text;
     }else{
       const blob=await resp.blob();
       currentBlobUrl=URL.createObjectURL(blob);
@@ -1605,7 +1628,7 @@ document.getElementById('copy-ex').addEventListener('click',()=>copyText(documen
 let _exampleApi=null;
 function pickExampleApi(){
   const allApis=ALL.flatMap(c=>c.items);
-  const fallback={name:'example',desc:'A simple example API',methods:['GET'],path:'/api/example?text=',params:[{name:'text',desc:'Input your text here',example:'Hello, world!'}]};
+  const fallback={name:'example',desc:'A simple example API',methods:['GET'],category:'Example',path:'/example/example',params:[{name:'text',desc:'Input text',example:'Hello, world!',required:true}]};
   _exampleApi=allApis.length?allApis[Math.floor(Math.random()*allApis.length)]:fallback;
   const method=(_exampleApi.methods&&_exampleApi.methods[0])||'GET';
   const badge=document.getElementById('exMethodBadge');
@@ -1616,85 +1639,73 @@ function pickExampleApi(){
 }
 document.getElementById('try-example-btn').addEventListener('click',()=>{if(_exampleApi)openModal(_exampleApi,'page');});
 
-/* ── BOOTSTRAP — 100% compatible with app.js (new wrapper + request timing) ── */
+/* ── BOOTSTRAP + REAL-TIME NOTIFICATIONS ── */
 window.addEventListener('load',async()=>{
   const ldr=document.getElementById('ldr'),page=document.getElementById('page');
   try{
-    const[sr,er,nr]=await Promise.all([fetch('/settings.json'),fetch('/api/info'),fetch('/notifications')]);
-    const cfg=await sr.json();
-    let epData=await er.json();
-    const nfData=await nr.json();
+    const[sr,er,nr]=await Promise.all([fetch('/set'),fetch('/endpoints'),fetch('/notifications')]);
+    const cfg=await sr.json(),epData=await er.json(),nfData=await nr.json();
+    ALL=epData.endpoints||[];
+    baseOrigin=window.location.origin;
 
-    /* Convert app.js /api/info format + parse meta.path into UI params */
-    ALL = (epData.categories || []).map(cat => ({
-      name: cat.name,
-      items: cat.items.map(item => {
-        const methodsRaw = item.method || 'get';
-        const methods = Array.isArray(methodsRaw) 
-          ? methodsRaw.map(m => String(m).toUpperCase())
-          : [String(methodsRaw).toUpperCase()];
-        return {
-          name: item.name,
-          desc: item.description || item.desc || '',
-          path: item.path,
-          methods: methods,
-          params: parseParamsFromPath(item.path)
-        };
-      })
-    }));
-
-    baseOrigin = window.location.origin;
+    /* UPDATED: terminal username now uses OPERATOR name (lowercase) instead of API title */
     siteUsername = (cfg.operator || 'api').toLowerCase().replace(/[^a-z0-9]/g,'') || 'api';
 
-    document.title=(cfg.name||'Aqua APIs')+' — Documentation';
+    document.title=(cfg.name||'API')+' — Documentation';
     document.getElementById('hdr-title').textContent=cfg.name||'Documentation';
     document.getElementById('favicon').href=cfg.icon||'/image/icon.png';
 
     const img=document.getElementById('heroImg');
     const imgSrc=Array.isArray(cfg.header?.imageSrc)?cfg.header.imageSrc[0]:(cfg.header?.imageSrc||'');
-    img.src=imgSrc;
+    img.src=imgSrc;img.alt=cfg.name||'API';
 
-    const sizes=cfg.header?.imageSize||{mobile:'80%',tablet:'40%',desktop:'40%'};
+    const sizes=cfg.header?.imageSize||{mobile:'80%',tablet:'38%',desktop:'38%'};
     const styleTag=document.createElement('style');
-    styleTag.textContent=`.hero-gif{width:${sizes.mobile||'80%'}}@media(min-width:560px){.hero-gif{width:${sizes.tablet||'40%'}}}@media(min-width:900px){.hero-gif{width:${sizes.desktop||'40%'}}}`;
+    styleTag.textContent=`.hero-gif{width:${sizes.mobile||'80%'}}@media(min-width:560px){.hero-gif{width:${sizes.tablet||'38%'}}}@media(min-width:900px){.hero-gif{width:${sizes.desktop||'38%'}}}`;
     document.head.appendChild(styleTag);
 
-    document.getElementById('heroName').textContent=cfg.name||'Aqua APIs';
-    document.getElementById('heroDesc').textContent=cfg.description||'Simple and easy to use';
-    document.getElementById('heroStatus').textContent=cfg.header?.status||'Online!';
-
-    const totalApis = ALL.reduce((acc, cat) => acc + cat.items.length, 0);
-    document.getElementById('sc-apis').textContent = totalApis;
-    document.getElementById('sc-cats').textContent = ALL.length;
-
+    document.getElementById('heroName').textContent=cfg.name||'';
+    document.getElementById('heroDesc').textContent=cfg.description||'';
+    document.getElementById('heroStatus').textContent=cfg.header?.status||'Online';
+    document.getElementById('sc-apis').textContent=epData.count||0;
+    document.getElementById('sc-cats').textContent=ALL.length;
     document.getElementById('baseUrlTxt').textContent=baseOrigin;
-    document.getElementById('exUrlTxt').textContent=baseOrigin+'/api/example?text=Hello%2C+world!';
+    document.getElementById('exUrlTxt').textContent=baseOrigin+'/example/example?text=Hello%2C+world!';
     if(cfg.operator)document.getElementById('rf-op').textContent=cfg.operator;
-    if(document.getElementById('rf-term-username')) document.getElementById('rf-term-username').textContent = siteUsername;
+
+    /* UPDATED: set lowercase operator name in the new home terminal example */
+    if(document.getElementById('rf-term-username')){
+      document.getElementById('rf-term-username').textContent = siteUsername;
+    }
 
     renderNotifs(nfData.notifications||[]);
     renderSidebar(ALL);
     pickExampleApi();
 
+    /* Home Response Format copy button (now uses the terminal-style copy button) */
     const rfCopyBtn = document.getElementById('rf-copy-btn');
     if(rfCopyBtn){
       rfCopyBtn.addEventListener('click',()=>{
         const op = document.getElementById('rf-op').textContent || siteUsername;
-        copyText(`{"operator":"${op}","timestamp":"2026-04-01T16:04:00.000Z","responseTime":"12ms","yourOriginalKey":"yourOriginalValue",...}`,'Format copied!');
+        copyText(`{"operator":"${op}","timestamp":"2026-03-29T12:25:00.000Z","responseTime":"4ms","results":...}`,'Format copied!');
       });
     }
 
+    /* ── REAL-TIME NOTIFICATIONS (no refresh needed) ── */
     lastNotifJSON = JSON.stringify((nfData.notifications||[]).map(n => n.id));
     setInterval(() => {
-      fetch('/notifications').then(r => r.json()).then(data => {
-        const notifs = data.notifications || [];
-        const currentJSON = JSON.stringify(notifs.map(n => n.id));
-        if (currentJSON !== lastNotifJSON) {
-          lastNotifJSON = currentJSON;
-          renderNotifs(notifs);
-        }
-      }).catch(() => {});
-    }, 6000);
+      fetch('/notifications')
+        .then(r => r.json())
+        .then(data => {
+          const notifs = data.notifications || [];
+          const currentJSON = JSON.stringify(notifs.map(n => n.id));
+          if (currentJSON !== lastNotifJSON) {
+            lastNotifJSON = currentJSON;
+            renderNotifs(notifs);
+          }
+        })
+        .catch(() => {}); // silent fail
+    }, 6000); // poll every 6 seconds
 
     requestAnimationFrame(()=>{page.classList.add('animate-in');});
   }catch(err){console.error('[docs] bootstrap error:',err);}

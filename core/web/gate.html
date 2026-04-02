@@ -10,7 +10,7 @@
   <meta property="og:description" content="">
   <meta property="og:type" content="website">
   <title></title>
-  <link rel="icon" id="favicon" href="/icon.png" type="image/png">
+  <link rel="icon" id="favicon" href="/image/icon.png" type="image/png">
   <link rel="canonical" href="/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
     --fm: 'JetBrains Mono','SF Mono','Menlo',monospace;
   }
 
-  /* ── RESET & BASE (exact from docs) ── */
+  /* RESET & BASE */
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
   *:focus{outline:none;}
   a,button{-webkit-tap-highlight-color:transparent;}
@@ -99,12 +99,11 @@
   }
   body::before{
     content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-    background:
-      radial-gradient(ellipse 70% 55% at -5% -5%,rgba(168,85,247,.13) 0%,transparent 60%),
-      radial-gradient(ellipse 50% 45% at 105% 105%,rgba(124,58,237,.09) 0%,transparent 60%);
+    background: radial-gradient(ellipse 70% 55% at -5% -5%,rgba(168,85,247,.13) 0%,transparent 60%),
+                radial-gradient(ellipse 50% 45% at 105% 105%,rgba(124,58,237,.09) 0%,transparent 60%);
   }
 
-  /* ── LOADER — EXACT MATCH TO DOCS (perfect animation) ── */
+  /* LOADER — exact same as docs.html */
   #ldr{
     position:fixed;inset:0;background:var(--bg);z-index:9999;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -117,7 +116,7 @@
   .ltxt::after{content:'';animation:ldots 1.4s steps(4,end) infinite;}
   @keyframes ldots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
 
-  /* ── HEADER — unified with docs style ── */
+  /* HEADER */
   header{
     position:fixed;top:0;left:0;right:0;z-index:600;height:var(--HH);
     background:rgba(7,7,15,.92);backdrop-filter:blur(32px) saturate(200%);
@@ -140,13 +139,13 @@
   }
   .hdr-btn{
     font-family:var(--fh);font-size:13px;font-weight:600;
-    padding:8px 20px;border-radius:var(--r-full);background:linear-gradient(135deg,var(--purple-dark),var(--purple));
+    padding:8px 20px;border-radius:9999px;background:linear-gradient(135deg,var(--purple-dark),var(--purple));
     color:#fff;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;
-    box-shadow:0 2px 10px rgba(168,85,247,.3);transition:all var(--dur-m);
+    box-shadow:0 2px 10px rgba(168,85,247,.3);transition:all .25s;
   }
   .hdr-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(168,85,247,.4);}
 
-  /* ── MAIN CONTENT (landing specific, but using docs tokens) ── */
+  /* MAIN */
   main{
     position:relative;z-index:1;max-width:768px;margin:0 auto;
     padding:calc(var(--HH) + 40px) 20px 100px;flex:1;
@@ -167,7 +166,7 @@
   .badge{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--surf-1);border:1px solid var(--border);
-    border-radius:var(--r-full);padding:6px 18px;font-size:11px;
+    border-radius:9999px;padding:6px 18px;font-size:11px;
     font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--green);
     margin-bottom:24px;
   }
@@ -205,8 +204,8 @@
     display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
   }
   .btn{
-    padding:13px 28px;border-radius:var(--r-full);font-family:var(--fh);font-size:14px;font-weight:600;
-    display:flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer;transition:all var(--dur-m);
+    padding:13px 28px;border-radius:9999px;font-family:var(--fh);font-size:14px;font-weight:600;
+    display:flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer;transition:all .25s;
   }
   .btn-fill{
     background:linear-gradient(135deg,var(--purple-dark),var(--purple));color:#fff;
@@ -348,7 +347,7 @@
   .soc{
     width:42px;height:42px;display:flex;align-items:center;justify-content:center;
     border-radius:var(--r-m);border:1px solid var(--border);background:var(--surf-2);
-    color:var(--txt-3);font-size:18px;text-decoration:none;transition:all var(--dur-m);
+    color:var(--txt-3);font-size:18px;text-decoration:none;transition:all .25s;
   }
   .soc:hover{
     border-color:var(--purple);color:var(--purple);background:var(--purple-10);
@@ -365,7 +364,7 @@
     font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--txt-4);
   }
 
-  /* TOAST — exact from docs */
+  /* TOAST */
   #toast{
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);
     background:var(--surf-3);border:1px solid var(--border);border-radius:var(--r-l);
@@ -376,7 +375,6 @@
   }
   #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* SCROLLBAR */
   ::-webkit-scrollbar{width:4px;}
   ::-webkit-scrollbar-track{background:transparent;}
   ::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:4px;}
@@ -532,14 +530,9 @@
 <div id="toast"><i id="toast-ico" class="fas fa-check" style="font-size:11px;"></i><span id="toast-txt"></span></div>
 
 <script>
-/* ── Stagger & smooth scroll ── */
+/* Smooth scroll & intersection observer */
 const io = new IntersectionObserver(e => {
-  e.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-      io.unobserve(entry.target);
-    }
-  });
+  e.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('show'); io.unobserve(entry.target); } });
 }, { threshold: 0.15 });
 
 document.querySelectorAll('section').forEach(s => io.observe(s));
@@ -547,82 +540,65 @@ document.querySelectorAll('section').forEach(s => io.observe(s));
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
 
-/* ── OPTIMIZED LOADER — stays until everything is fully loaded ── */
+/* Main loader */
 window.addEventListener('load', async () => {
   const ldr = document.getElementById('ldr');
   const mainEl = document.querySelector('main');
 
-  // Safety timeout (max 8 seconds)
   const timeoutId = setTimeout(() => {
-    console.warn('[gate] Loading timeout - forcing hide');
     ldr.classList.add('out');
     mainEl.classList.add('show');
   }, 8000);
 
   try {
-    const [setRes, epRes] = await Promise.all([
-      fetch('/settings.json'),
-      fetch('/api/info')
-    ]);
-
+    const [setRes, epRes] = await Promise.all([fetch('/set'), fetch('/endpoints')]);
     const cfg = await setRes.json();
     const epData = await epRes.json();
 
-    /* Populate content */
-    document.title = cfg.name || 'API';
+    /* Populate everything */
+    document.title = cfg.name || 'Wataru API';
     document.querySelector('meta[name="description"]').content = cfg.description || '';
     document.querySelector('meta[property="og:title"]').content = cfg.name || '';
     document.querySelector('meta[property="og:description"]').content = cfg.description || '';
-    document.getElementById('favicon').href = cfg.icon || '/image/icon.png';
 
-    document.getElementById('headerTitle').textContent = cfg.name || 'API Platform';
+    document.getElementById('favicon').href = cfg.icon || '/image/icon.png';
+    document.getElementById('headerTitle').textContent = cfg.name || 'Wataru API';
 
     document.getElementById('apiName').textContent = cfg.name || '';
     document.getElementById('apiDescription').textContent = cfg.description || '';
     if (cfg.header?.status) document.getElementById('headerStatus').textContent = cfg.header.status;
 
-    /* Hero Image - wait for full load */
+    /* Hero Image + responsive sizing */
     const img = document.getElementById('headerImage');
     const imageSrc = Array.isArray(cfg.header?.imageSrc) ? cfg.header.imageSrc[0] : (cfg.header?.imageSrc || '');
 
-    const imageLoadPromise = new Promise(resolve => {
-      if (!imageSrc) return resolve();
-      img.onload = resolve;
-      img.onerror = resolve; // continue even if image fails
+    if (imageSrc) {
       img.src = imageSrc;
       img.alt = cfg.name || 'API';
-    });
+    }
 
-    /* Wait for fetches + image */
-    await Promise.all([imageLoadPromise]);
-
-    /* Dynamic image sizing */
+    /* Apply image sizes from settings.json */
     if (cfg.header?.imageSize) {
-      const sizeConfig = cfg.header.imageSize;
-      const sizeStyle = document.createElement('style');
-      sizeStyle.textContent = `
-        @media (max-width: 767px) { #heroImgWrap { width: ${sizeConfig.mobile || '100%'}; max-width: none; } }
-        @media (min-width: 768px) and (max-width: 1024px) { #heroImgWrap { width: ${sizeConfig.tablet || '40%'}; max-width: none; } }
-        @media (min-width: 1025px) { #heroImgWrap { width: ${sizeConfig.desktop || '40%'}; max-width: none; } }
+      const s = cfg.header.imageSize;
+      const style = document.createElement('style');
+      style.textContent = `
+        #heroImgWrap { width: ${s.mobile || '100%'}; max-width: none; }
+        @media (min-width: 768px) { #heroImgWrap { width: ${s.tablet || '40%'}; } }
+        @media (min-width: 1025px) { #heroImgWrap { width: ${s.desktop || '40%'}; } }
       `;
-      document.head.appendChild(sizeStyle);
+      document.head.appendChild(style);
     }
 
     /* Stats */
     document.getElementById('totalEndpoints').textContent = epData.count || '0';
     document.getElementById('totalCategories').textContent = epData.endpoints?.length || '0';
 
-    /* Terms */
+    /* Terms & Social */
     document.getElementById('apiNameTerms').textContent = cfg.name || '';
-
-    /* Social links */
     if (cfg.telegram) {
       document.getElementById('telegramLink').href = cfg.telegram;
       document.getElementById('termsLink').href = cfg.telegram;
@@ -631,7 +607,7 @@ window.addEventListener('load', async () => {
     if (cfg.github) document.getElementById('githubLink').href = cfg.github;
 
     /* Footer */
-    document.getElementById('footerCopyright').textContent = `© ${new Date().getFullYear()} ${cfg.name || 'API'}. All rights reserved.`;
+    document.getElementById('footerCopyright').textContent = `© ${new Date().getFullYear()} ${cfg.name || 'Wataru API'}. All rights reserved.`;
 
   } catch (err) {
     console.error('[gate] bootstrap error:', err);

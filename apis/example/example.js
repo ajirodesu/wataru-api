@@ -1,5 +1,5 @@
 const meta = {
-  name: "example",
+  name: "Example",
   desc: "A simple example API that demonstrates basic functionality",
   method: "get",
   category: "example",
